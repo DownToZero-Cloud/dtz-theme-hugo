@@ -162,7 +162,8 @@
             // look for context_id in roles
             for (let role of x.roles) {
                 // ignore identities
-                if (role.startsWith('https://dtz.rocks/identity/assume/')) {
+                if (role.startsWith('https://dtz.rocks/identity/')
+                  || role.startsWith('https://dtz.rocks/billing/') ) {
                     if (!processed_identities.includes(role)) {
                         let identity_id = role.split('/')[5];
                         let li = document.createElement('li');
