@@ -108,7 +108,12 @@
                 expires: exp_date,
                 domain: 'dtz.rocks', secure: true, sameSite: 'Lax'
             });
-            document.querySelector("#currentContext").textContent = new_context_id.split('-')[0];
+            let alias = getAliasForContext(new_context_id);
+            if (alias && alias.length > 0) {
+                document.querySelector("#currentContext").textContent = alias;
+            } else {
+                document.querySelector("#currentContext").textContent = new_context_id.split('-')[0];
+            }
             if (new_target_url) {
                 document.location = new_target_url;
             } else {
@@ -158,7 +163,7 @@
             for (let role of x.roles) {
                 // ignore identities
                 if (role.startsWith('https://dtz.rocks/identity/assume/')) {
-                    if(!processed_identities.includes(role)){
+                    if (!processed_identities.includes(role)) {
                         let identity_id = role.split('/')[5];
                         let li = document.createElement('li');
                         li.innerHTML = `<a class="dropdown-item" href="#">${identity_id}</a>`;
