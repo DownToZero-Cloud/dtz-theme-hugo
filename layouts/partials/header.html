@@ -163,7 +163,7 @@
             for (let role of x.roles) {
                 // ignore identities
                 if (role.startsWith('https://dtz.rocks/identity/')
-                  || role.startsWith('https://dtz.rocks/billing/') ) {
+                    || role.startsWith('https://dtz.rocks/billing/')) {
                     if (!processed_identities.includes(role)) {
                         let identity_id = role.split('/')[5];
                         let li = document.createElement('li');
@@ -191,18 +191,20 @@
                     })
                         .then(r => r.json())
                         .then(data => {
-                            let id = `#ctx${data.context_id.replaceAll('-', '')}`;
-                            let el = document.querySelector(id);
-                            el.textContent = `${data.alias} `;
-                            document.querySelector(`#ctx${data.context_id.replaceAll('-', '')}`);
-                            knownContexts[data.context_id] = { alias: data.alias };
-                            // wrap around storage headers
-                            let x = {
-                                ts: new Date().getTime(),
-                                version: "1",
-                                data: knownContexts
-                            };
-                            localStorage.contexts = JSON.stringify(x);
+                            if (data) {
+                                let id = `#ctx${data.context_id.replaceAll('-', '')}`;
+                                let el = document.querySelector(id);
+                                el.textContent = `${data.alias} `;
+                                document.querySelector(`#ctx${data.context_id.replaceAll('-', '')}`);
+                                knownContexts[data.context_id] = { alias: data.alias };
+                                // wrap around storage headers
+                                let x = {
+                                    ts: new Date().getTime(),
+                                    version: "1",
+                                    data: knownContexts
+                                };
+                                localStorage.contexts = JSON.stringify(x);
+                            }
                         });
                 }
                 li.appendChild(link);
