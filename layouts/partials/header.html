@@ -129,98 +129,106 @@
     function initNavbar() {
         let url = document.location.href;
         let urlObj = new URL(url);
-        if (!Cookies.get('dtz-auth')) {
-            if (url.indexOf("https://identity.dtz.rocks/signup/") == 0) {
-                return;
-            }
-            if (url.indexOf("https://identity.dtz.rocks/login/") == -1) {
-                window.location = "https://identity.dtz.rocks/login/?rd=" + url;
-            }
+        let token;
+        // look for url token
+        if (urlObj.searchParams.has("dtz-auth")) {
+            token = urlObj.searchParams.get("dtz-auth");
         } else {
-            let x = parseJwt(Cookies.get('dtz-auth'));
-            user = x;
-            knownContexts = {};
-            //look for cache context info
-            let str = localStorage.contexts;
-            if (str && str.length > 0) {
-                let x = JSON.parse(str);
-                // eval staleness, not older then 7 days
-                if (x.version == "1") {
-                    if (x.ts < new Date().getTime() - 7 * 24 * 60 * 60 * 1000) {
-                        //delete data
-                        delete localStorage.contexts;
-                    } else {
-                        knownContexts = x.data;
-                    }
-                } else {
-                    //delete unknown data
-                    delete localStorage.contexts;
+            // look for cookie token
+            if (!Cookies.get('dtz-auth')) {
+                if (url.indexOf("https://identity.dtz.rocks/signup/") == 0) {
+                    return;
                 }
+                if (url.indexOf("https://identity.dtz.rocks/login/") == -1) {
+                    window.location = "https://identity.dtz.rocks/login/?rd=" + url;
+                }
+            } else {
+                token = Cookies.get('dtz-auth');
             }
-            let processed_contexts = [];
-            let processed_identities = [];
-            // look for context_id in roles
-            for (let role of x.roles) {
-                // ignore identities
-                if (role.startsWith('https://dtz.rocks/identity/')
-                    || role.startsWith('https://dtz.rocks/billing/')) {
-                    if (!processed_identities.includes(role)) {
-                        let identity_id = role.split('/')[5];
-                        let li = document.createElement('li');
-                        li.innerHTML = `<a class="dropdown-item" href="#">${identity_id}</a>`;
-                        document.querySelector('#userIdentityList').append(li);
-                        processed_identities.push(role);
-                    }
-                    continue;
-                }
-                let context_id = role.split('/')[5];
-                if (processed_contexts.includes(context_id)) continue;
-                let li = document.createElement("li");
-                let link = document.createElement("a");
-                link.href = "#";
-                link.className = "dropdown-item";
-                link.addEventListener('click', changeContext);
-                link.id = "ctx" + context_id.replaceAll('-', '');
-                link.dataset.contextid = context_id;
-                if (knownContexts[context_id]) {
-                    link.textContent = knownContexts[context_id].alias;
-                } else {
-                    link.textContent = context_id;
-                    fetch("https://dtz.rocks/api/2021-12-09/context/" + context_id, {
-                        credentials: 'include'
-                    })
-                        .then(r => r.json())
-                        .then(data => {
-                            if (data) {
-                                let id = `#ctx${data.context_id.replaceAll('-', '')}`;
-                                let el = document.querySelector(id);
-                                el.textContent = `${data.alias} `;
-                                document.querySelector(`#ctx${data.context_id.replaceAll('-', '')}`);
-                                knownContexts[data.context_id] = { alias: data.alias };
-                                // wrap around storage headers
-                                let x = {
-                                    ts: new Date().getTime(),
-                                    version: "1",
-                                    data: knownContexts
-                                };
-                                localStorage.contexts = JSON.stringify(x);
-                            }
-                        });
-                }
-                li.appendChild(link);
-                processed_contexts.push(context_id);
-                document.getElementById("contextList").appendChild(li);
-            }
-            let context_id = user.scope;
-            fetch("https://dtz.rocks/api/2021-12-09/context/" + context_id, {
-                credentials: 'include'
-            })
-                .then(r => r.json())
-                .then(data => {
-                    document.querySelector(`#currentContext`).textContent = data.alias;
-                });
-            document.querySelector("#userControl").style.display = "block";
         }
+        let x = parseJwt(token);
+        user = x;
+        knownContexts = {};
+        //look for cache context info
+        let str = localStorage.contexts;
+        if (str && str.length > 0) {
+            let x = JSON.parse(str);
+            // eval staleness, not older then 7 days
+            if (x.version == "1") {
+                if (x.ts < new Date().getTime() - 7 * 24 * 60 * 60 * 1000) {
+                    //delete data
+                    delete localStorage.contexts;
+                } else {
+                    knownContexts = x.data;
+                }
+            } else {
+                //delete unknown data
+                delete localStorage.contexts;
+            }
+        }
+        let processed_contexts = [];
+        let processed_identities = [];
+        // look for context_id in roles
+        for (let role of x.roles) {
+            // ignore identities
+            if (role.startsWith('https://dtz.rocks/identity/')
+                || role.startsWith('https://dtz.rocks/billing/')) {
+                if (!processed_identities.includes(role)) {
+                    let identity_id = role.split('/')[5];
+                    let li = document.createElement('li');
+                    li.innerHTML = `<a class="dropdown-item" href="#">${identity_id}</a>`;
+                    document.querySelector('#userIdentityList').append(li);
+                    processed_identities.push(role);
+                }
+                continue;
+            }
+            let context_id = role.split('/')[5];
+            if (processed_contexts.includes(context_id)) continue;
+            let li = document.createElement("li");
+            let link = document.createElement("a");
+            link.href = "#";
+            link.className = "dropdown-item";
+            link.addEventListener('click', changeContext);
+            link.id = "ctx" + context_id.replaceAll('-', '');
+            link.dataset.contextid = context_id;
+            if (knownContexts[context_id]) {
+                link.textContent = knownContexts[context_id].alias;
+            } else {
+                link.textContent = context_id;
+                fetch("https://dtz.rocks/api/2021-12-09/context/" + context_id, {
+                    credentials: 'include'
+                })
+                    .then(r => r.json())
+                    .then(data => {
+                        if (data) {
+                            let id = `#ctx${data.context_id.replaceAll('-', '')}`;
+                            let el = document.querySelector(id);
+                            el.textContent = `${data.alias} `;
+                            document.querySelector(`#ctx${data.context_id.replaceAll('-', '')}`);
+                            knownContexts[data.context_id] = { alias: data.alias };
+                            // wrap around storage headers
+                            let x = {
+                                ts: new Date().getTime(),
+                                version: "1",
+                                data: knownContexts
+                            };
+                            localStorage.contexts = JSON.stringify(x);
+                        }
+                    });
+            }
+            li.appendChild(link);
+            processed_contexts.push(context_id);
+            document.getElementById("contextList").appendChild(li);
+        }
+        let context_id = user.scope;
+        fetch("https://dtz.rocks/api/2021-12-09/context/" + context_id, {
+            credentials: 'include'
+        })
+            .then(r => r.json())
+            .then(data => {
+                document.querySelector(`#currentContext`).textContent = data.alias;
+            });
+        document.querySelector("#userControl").style.display = "block";
     }
     function getContextListFromCookie() {
         let result = [];
