@@ -234,7 +234,8 @@
         let result = [];
         for (let role of user.roles) {
             // ignore identities
-            if (role.startsWith("https://dtz.rocks/identity/assume/")) {
+            if (role.startsWith("https://dtz.rocks/identity/")
+             || role.startsWith("https://dtz.rocks/billing/")) {
                 continue;
             }
             let context_id = role.split('/')[5];
