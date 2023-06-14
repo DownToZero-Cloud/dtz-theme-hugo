@@ -262,7 +262,7 @@
         return user.scope;
     }
     function getAliasForContext(contextId) {
-        if (contextId) {
+        if (contextId && knownContexts[contextId] && knownContexts[contextId].alias) {
             return knownContexts[contextId].alias;
         } else {
             return '';
