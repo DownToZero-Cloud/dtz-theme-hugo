@@ -169,56 +169,58 @@
         let processed_contexts = [];
         let processed_identities = [];
         // look for context_id in roles
-        for (let role of x.roles) {
-            // ignore identities
-            if (role.startsWith('https://dtz.rocks/identity/')
-                || role.startsWith('https://dtz.rocks/billing/')) {
-                if (!processed_identities.includes(role)) {
-                    let identity_id = role.split('/')[5];
-                    let li = document.createElement('li');
-                    li.innerHTML = `<a class="dropdown-item" href="#">${identity_id}</a>`;
-                    document.querySelector('#userIdentityList').append(li);
-                    processed_identities.push(role);
+        if(x && x.roles) {
+            for (let role of x.roles) {
+                // ignore identities
+                if (role.startsWith('https://dtz.rocks/identity/')
+                    || role.startsWith('https://dtz.rocks/billing/')) {
+                    if (!processed_identities.includes(role)) {
+                        let identity_id = role.split('/')[5];
+                        let li = document.createElement('li');
+                        li.innerHTML = `<a class="dropdown-item" href="#">${identity_id}</a>`;
+                        document.querySelector('#userIdentityList').append(li);
+                        processed_identities.push(role);
+                    }
+                    continue;
                 }
-                continue;
+                let context_id = role.split('/')[5];
+                if (processed_contexts.includes(context_id)) continue;
+                let li = document.createElement("li");
+                let link = document.createElement("a");
+                link.href = "#";
+                link.className = "dropdown-item";
+                link.addEventListener('click', changeContext);
+                link.id = "ctx" + context_id.replaceAll('-', '');
+                link.dataset.contextid = context_id;
+                if (knownContexts[context_id]) {
+                    link.textContent = knownContexts[context_id].alias;
+                } else {
+                    link.textContent = context_id;
+                    fetch("https://dtz.rocks/api/2021-12-09/context/" + context_id, {
+                        credentials: 'include'
+                    })
+                        .then(r => r.json())
+                        .then(data => {
+                            if (data) {
+                                let id = `#ctx${data.context_id.replaceAll('-', '')}`;
+                                let el = document.querySelector(id);
+                                el.textContent = `${data.alias} `;
+                                document.querySelector(`#ctx${data.context_id.replaceAll('-', '')}`);
+                                knownContexts[data.context_id] = { alias: data.alias };
+                                // wrap around storage headers
+                                let x = {
+                                    ts: new Date().getTime(),
+                                    version: "1",
+                                    data: knownContexts
+                                };
+                                localStorage.contexts = JSON.stringify(x);
+                            }
+                        });
+                }
+                li.appendChild(link);
+                processed_contexts.push(context_id);
+                document.getElementById("contextList").appendChild(li);
             }
-            let context_id = role.split('/')[5];
-            if (processed_contexts.includes(context_id)) continue;
-            let li = document.createElement("li");
-            let link = document.createElement("a");
-            link.href = "#";
-            link.className = "dropdown-item";
-            link.addEventListener('click', changeContext);
-            link.id = "ctx" + context_id.replaceAll('-', '');
-            link.dataset.contextid = context_id;
-            if (knownContexts[context_id]) {
-                link.textContent = knownContexts[context_id].alias;
-            } else {
-                link.textContent = context_id;
-                fetch("https://dtz.rocks/api/2021-12-09/context/" + context_id, {
-                    credentials: 'include'
-                })
-                    .then(r => r.json())
-                    .then(data => {
-                        if (data) {
-                            let id = `#ctx${data.context_id.replaceAll('-', '')}`;
-                            let el = document.querySelector(id);
-                            el.textContent = `${data.alias} `;
-                            document.querySelector(`#ctx${data.context_id.replaceAll('-', '')}`);
-                            knownContexts[data.context_id] = { alias: data.alias };
-                            // wrap around storage headers
-                            let x = {
-                                ts: new Date().getTime(),
-                                version: "1",
-                                data: knownContexts
-                            };
-                            localStorage.contexts = JSON.stringify(x);
-                        }
-                    });
-            }
-            li.appendChild(link);
-            processed_contexts.push(context_id);
-            document.getElementById("contextList").appendChild(li);
         }
         let context_id = user.scope;
         fetch("https://dtz.rocks/api/2021-12-09/context/" + context_id, {
