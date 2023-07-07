@@ -7,6 +7,7 @@ class DtzContextDropdown extends HTMLElement {
         let val = evt.target.value;
         console.log('new value ' + val);
         this.value = val;
+        this.setAttribute("value",val);
     }
     async connectedCallback() {
         let list = getContextListFromCookie();
