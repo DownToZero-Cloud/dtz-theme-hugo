@@ -6,8 +6,10 @@ class DtzContextDropdown extends HTMLElement {
         if (evt) evt.preventDefault();
         let val = evt.target.value;
         console.log('new value ' + val);
-        this.value = val;
-        this.setAttribute("value",val);
+        // set value on custom element/ this is bound to the select
+        let root = this.parentElement;
+        root.value = val;
+        root.setAttribute("value",val);
     }
     async connectedCallback() {
         let list = getContextListFromCookie();
