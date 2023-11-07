@@ -136,10 +136,10 @@
         } else {
             // look for cookie token
             if (!Cookies.get('dtz-auth')) {
-                if (url.indexOf("https://identity.dtz.rocks/signup/") == 0) {
+                if (url.indexOf("https://identity.dtz.rocks/signup") == 0) {
                     return;
                 }
-                if (url.indexOf("https://identity.dtz.rocks/login/") == -1) {
+                if (url.indexOf("https://identity.dtz.rocks/login") == -1) {
                     window.location = "https://identity.dtz.rocks/login/?rd=" + url;
                 }
             } else {
