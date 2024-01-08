@@ -198,6 +198,10 @@
                                 data: knownContexts
                             };
                             localStorage.contexts = JSON.stringify(x);
+                            // check for current context
+                            if(data.context_id == x.scope){
+                                document.querySelector(`#currentContext`).textContent = data.alias;
+                            }
                         }
                     });
             }
