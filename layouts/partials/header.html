@@ -178,6 +178,10 @@
             link.dataset.contextid = context_id;
             if (knownContexts[context_id]) {
                 link.textContent = knownContexts[context_id].alias;
+                // check for current context
+                if (data.context_id == x.scope) {
+                    document.querySelector(`#currentContext`).textContent = knownContexts[context_id].alias;
+                }
             } else {
                 link.textContent = context_id;
                 fetch("https://dtz.rocks/api/2021-12-09/context/" + context_id, {
@@ -199,7 +203,7 @@
                             };
                             localStorage.contexts = JSON.stringify(x);
                             // check for current context
-                            if(data.context_id == x.scope){
+                            if (data.context_id == x.scope) {
                                 document.querySelector(`#currentContext`).textContent = data.alias;
                             }
                         }
