@@ -167,6 +167,10 @@
                 delete localStorage.contexts;
             }
         }
+        // check if current context is known
+        if (knownContexts && knownContexts[x.scope]) {
+            document.querySelector(`#currentContext`).textContent = knownContexts[x.scope].alias;
+        }
         let processed_contexts = [];
         for (context_id of x.contexts) {
             let li = document.createElement("li");
@@ -178,10 +182,7 @@
             link.dataset.contextid = context_id;
             if (knownContexts[context_id]) {
                 link.textContent = knownContexts[context_id].alias;
-                // check for current context
-                if (context_id == x.scope) {
-                    document.querySelector(`#currentContext`).textContent = knownContexts[context_id].alias;
-                }
+                
             } else {
                 link.textContent = context_id;
                 fetch("https://dtz.rocks/api/2021-12-09/context/" + context_id, {
