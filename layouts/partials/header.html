@@ -170,6 +170,25 @@
         // check if current context is known
         if (knownContexts && knownContexts[x.scope]) {
             document.querySelector(`#currentContext`).textContent = knownContexts[x.scope].alias;
+        } else{
+            //process unkown current context
+            fetch("https://dtz.rocks/api/2021-12-09/context/" + x.scope, {
+                credentials: 'include'
+            })
+                .then(r => r.json())
+                .then(data => {
+                    if (data) {
+                        knownContexts[data.context_id] = { alias: data.alias };
+                        // wrap around storage headers
+                        let x = {
+                            ts: new Date().getTime(),
+                            version: "1",
+                            data: knownContexts
+                        };
+                        localStorage.contexts = JSON.stringify(x);
+                        document.querySelector(`#currentContext`).textContent = data.alias;
+                    }
+                });
         }
         let processed_contexts = [];
         for (context_id of x.contexts) {
