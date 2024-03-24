@@ -234,6 +234,10 @@
                 document.getElementById("contextList").appendChild(li);
             }
             document.querySelector("#userControl").style.display = "block";
+            // send event for user is logged in
+            document.dispatchEvent(new CustomEvent('loggedIn', {bubbles: true}));
+        }else{
+            document.dispatchEvent(new CustomEvent('noLoginDetected', {bubbles: true}));
         }
     }
     function getContextListFromCookie() {
