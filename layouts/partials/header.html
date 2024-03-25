@@ -234,10 +234,14 @@
                 document.getElementById("contextList").appendChild(li);
             }
             document.querySelector("#userControl").style.display = "block";
-            // send event for user is logged in
-            document.dispatchEvent(new CustomEvent('loggedIn', {bubbles: true}));
+            // async fire - send event for user is logged in
+            window.setTimeout(()=> {
+                document.dispatchEvent(new CustomEvent('loggedIn', {bubbles: true}));
+            },0);
         }else{
-            document.dispatchEvent(new CustomEvent('noLoginDetected', {bubbles: true}));
+            window.setTimeout(()=> {
+                document.dispatchEvent(new CustomEvent('noLoginDetected', {bubbles: true}));
+            },0);
         }
     }
     function getContextListFromCookie() {
