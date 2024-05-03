@@ -178,7 +178,7 @@
                     .then(r => r.json())
                     .then(data => {
                         if (data) {
-                            knownContexts[data.context_id] = { alias: data.alias };
+                            knownContexts[data.contextId] = { alias: data.alias };
                             // wrap around storage headers
                             let x = {
                                 ts: new Date().getTime(),
@@ -210,11 +210,11 @@
                         .then(r => r.json())
                         .then(data => {
                             if (data) {
-                                let id = `#ctx${data.context_id.replaceAll('-', '')}`;
+                                let id = `#ctx${data.contextId.replaceAll('-', '')}`;
                                 let el = document.querySelector(id);
                                 el.textContent = `${data.alias} `;
-                                document.querySelector(`#ctx${data.context_id.replaceAll('-', '')}`);
-                                knownContexts[data.context_id] = { alias: data.alias };
+                                document.querySelector(`#ctx${data.contextId.replaceAll('-', '')}`);
+                                knownContexts[data.contextId] = { alias: data.alias };
                                 // wrap around storage headers
                                 let x = {
                                     ts: new Date().getTime(),
@@ -223,7 +223,7 @@
                                 };
                                 localStorage.contexts = JSON.stringify(x);
                                 // check for current context
-                                if (data.context_id == x.scope) {
+                                if (data.contextId == x.scope) {
                                     document.querySelector(`#currentContext`).textContent = data.alias;
                                 }
                             }
