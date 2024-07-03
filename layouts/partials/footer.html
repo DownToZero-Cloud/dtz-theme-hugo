@@ -3,9 +3,9 @@
 </div>
 <div class="bg-light d-flex py-3 px-4" style="font-family: monospace;font-size: 0.8em;justify-content: space-between;">
     <div><a href="https://status.dtz.rocks">Status Page</a></div>
-    {{ with .Page.Params.Documentation }}
+    {{ with .Page.Params.documentation }}
     <div><a href="{{ . }}">Documentation</a></div>
-    {{ else }}{{ with .Site.Config.Documentation }}
+    {{ else }}{{ with .Site.Params.documentation }}
     <div><a href="{{ . }}">Documentation</a></div>
     {{ else }}
     <div><a href="https://downtozero.cloud/docs/">Documentation</a></div>
