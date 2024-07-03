@@ -139,7 +139,9 @@
                     return;
                 }
                 if (url.indexOf("https://identity.dtz.rocks/login") == -1) {
-                    window.location = "https://identity.dtz.rocks/login/?rd=" + url;
+                    if (window.location.hash != '#noredirect') {
+                        window.location = "https://identity.dtz.rocks/login/?rd=" + url;
+                    }
                 }
             } else {
                 token = Cookies.get('dtz-auth');
