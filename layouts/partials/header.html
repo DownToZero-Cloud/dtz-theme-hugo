@@ -99,7 +99,13 @@
             headers: { 'Content-Type': 'application/json' },
             method: "POST",
             body: JSON.stringify({ contextId: new_context_id })
-        }).then(r => r.json()).then(x => {
+        }).then(r => {
+            if(r.status == 401){
+                window.location="/signin?rd="+encodeURI(window.location.href);
+            }else{
+                return r.json();
+            }
+        }).then(x => {
             let token = x.access_token;
             let expires = x.expires_in;
             let exp_date = new Date(new Date().getTime() + expires * 1000);
@@ -140,7 +146,7 @@
                 }
                 if (url.indexOf("https://identity.dtz.rocks/login") == -1) {
                     if (window.location.hash != '#noredirect') {
-                        window.location = "https://identity.dtz.rocks/login/?rd=" + url;
+                        window.location = "https://identity.dtz.rocks/login/?rd=" + encodeURI(url);
                     }
                 }
             } else {
@@ -176,7 +182,13 @@
                 fetch("https://dtz.rocks/api/2021-12-09/context/" + x.scope, {
                     credentials: 'include'
                 })
-                    .then(r => r.json())
+                    .then(r => {
+                        if(r.status == 401){
+                            window.location="/signin?rd="+encodeURI(window.location.href);
+                        }else{
+                            return r.json();
+                        }
+                    })
                     .then(data => {
                         if (data) {
                             knownContexts[data.contextId] = { alias: data.alias };
@@ -208,7 +220,13 @@
                     fetch("https://dtz.rocks/api/2021-12-09/context/" + context_id, {
                         credentials: 'include'
                     })
-                        .then(r => r.json())
+                        .then(r =>{
+                            if(r.status == 401){
+                                window.location="/signin?rd="+encodeURI(window.location.href);
+                            }else{
+                                return r.json();
+                            }
+                        })
                         .then(data => {
                             if (data) {
                                 let id = `#ctx${data.contextId.replaceAll('-', '')}`;
