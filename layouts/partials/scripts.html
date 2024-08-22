@@ -2,7 +2,7 @@
 async function dtzfetch(url,options){
     return fetch(url,options).then(r=>{
         if(r.status == 401){
-            window.location="/signin?rd="+encodeURI(window.location.href);
+            window.location="https://identity.dtz.rocks/signin?rd="+encodeURI(window.location.href);
         }else{
             return r.json();
         }
