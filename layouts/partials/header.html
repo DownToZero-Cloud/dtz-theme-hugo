@@ -101,7 +101,7 @@
             body: JSON.stringify({ contextId: new_context_id })
         }).then(r => {
             if(r.status == 401){
-                window.location="/signin?rd="+encodeURI(window.location.href);
+                window.location="/login?rd="+encodeURI(window.location.href);
             }else{
                 return r.json();
             }
