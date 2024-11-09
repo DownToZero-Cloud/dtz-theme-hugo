@@ -6,6 +6,22 @@
         <div style="flex-grow:1;display:flex;flex-direction: column;">
         {{- block "main" . }}{{- end }}
         </div>
+        {{ with .File }}
+        {{ $jsfile :=  (printf "%s%s%s" .Dir .TranslationBaseName ".js") }}
+        {{ if (fileExists $jsfile) -}}
+        <script>
+        {{readFile $jsfile | safeJS}}
+        </script>
+        {{ end }}
+        {{ end }}
+        {{ with .File }}
+        {{ $cssfile :=  (printf "%s%s%s" .Dir .TranslationBaseName ".css") }}
+        {{ if (fileExists $cssfile) -}}
+        <style>
+        {{readFile $cssfile | safeCSS}}
+        </style>
+        {{ end }}
+        {{ end }}
         {{- partial "footer.html" . -}}
         {{- partial "scripts.html" . -}}
     </body>
