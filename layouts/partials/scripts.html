@@ -1,11 +1,13 @@
 <script>
-async function dtzfetch(url,options){
-    return fetch(url,options).then(r=>{
-        if(r.status == 401){
-            window.location="https://identity.dtz.rocks/login?rd="+encodeURI(window.location.href);
-        }else{
-            return r.json();
-        }
-    })
-}
+    async function dtzfetch(url, options) {
+        return fetch(url, options).then(r => {
+            if (r.status == 401) {
+                window.location = "https://identity.dtz.rocks/login?rd=" + encodeURI(window.location.href);
+            } else if (r.status == 500) {
+                alert("request failed with status 500: " + url);
+            } else {
+                return r.json();
+            }
+        })
+    }
 </script>
