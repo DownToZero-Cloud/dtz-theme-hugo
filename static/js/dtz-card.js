@@ -61,26 +61,24 @@ class DtzCard extends HTMLElement {
         }`);
         return styles;
     }
+    slotChange(slot){
+        this.querySelector("h5").classList.remove("loading");
+        this.querySelector(".dtz-spinner").classList.add("hide");
+    }
     connectedCallback() {
         const shadow = this.attachShadow({ mode: "open" });
         shadow.adoptedStyleSheets = [this.styles()];
         let title = this.getAttribute('title');
-        let slot = shadow.querySelector("slot");
-        let loading = false;
-        if (!slot.hasChildNodes){
-            loading= true;
-            slot.addEventListener("slotchange", (e) => {
-                this.querySelector("h5").classList.remove("loading");
-                this.querySelector(".dtz-spinner").classList.add("hide");
-            });
-        }
-        let title_str = title ? `<h5 class="dtz-heading ${loading ? 'loading' : ''}">${title}</h5>` : '';
-        let spinner = loading ? `<div class="dtz-spinner" role="status">
-  <span class="visually-hidden">Loading...</span>
-</div>`: "";
+        setTimeout(() => {
+            let slot = shadow.querySelector("slot");
+            console.log(slot.hasChildNodes);
+        },0);
+        let title_str = title ? `<h5 class="dtz-heading loading">${title}</h5>` : '';
         shadow.innerHTML = `<div class="dtz-card">
             ${title_str}
-            <div style="margin: 1em;">${spinner}<slot></slot></div>
+            <div style="margin: 1em;"><div class="dtz-spinner" role="status">
+  <span class="visually-hidden">Loading...</span>
+</div><slot></slot></div>
         </div>`;
     }
 }
