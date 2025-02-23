@@ -33,11 +33,10 @@ class DtzCard extends HTMLElement {
         shadow.adoptedStyleSheets = [this.styles()];
         let title = this.getAttribute('title');
         let loading = this.getAttribute('loading');
+        let title_str = title ? `<h5 class="dtz-heading ${loading ? 'loading' : ''}">${title}</h5>` : '';
         shadow.innerHTML = `<div class="dtz-card">
-            ${title ? `<h5 class="dtz-heading ${loading ? 'loading' : ''}">${title}</h5>` : ''}
-            <div style="margin: 1em;">
-            <slot></slot>
-            </div>
+            ${title_str}
+            <div style="margin: 1em;"><slot></slot></div>
         </div>`;
     }
 }
