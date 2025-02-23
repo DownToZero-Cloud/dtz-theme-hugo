@@ -10,7 +10,7 @@
 <script src="/parseJwt.js"></script>
 <link rel="shortcut icon" type="image/svg+xml" href="/logo.svg" />
 <link rel="icon" sizes="any" type="image/svg+xml" href="/logo.svg">
-{{ with .Params.components }}
+{{ with .Params.components }}{{ range . }}
 <script type="module"src="/js/{{ . }}.js"></script>
-{{ end }}
+{{ end }}{{ end }}
 </head>
