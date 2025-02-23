@@ -24,6 +24,41 @@ class DtzCard extends HTMLElement {
             border: 2px solid var(--dtz-normal);
             overflow: hidden;
         }`);
+        styles.insertRule(`.dtz-spinner {
+            /* change color here */
+            color: #1c4c5b
+          }`);
+        styles.insertRule(`.dtz-spinner,
+          .dtz-spinner:after {
+            box-sizing: border-box;
+          }`);
+        styles.insertRule(`.dtz-spinner {
+            display: inline-block;
+            width: 80px;
+            height: 80px;
+          }`);
+        styles.insertRule(`.dtz-spinner.hide {
+            display: none;
+        }`);
+        styles.insertRule(`.dtz-spinner:after {
+            content: " ";
+            display: block;
+            width: 64px;
+            height: 64px;
+            margin: 8px;
+            border-radius: 50%;
+            border: 6.4px solid currentColor;
+            border-color: currentColor transparent currentColor transparent;
+            animation: dtz-spinner 1.2s linear infinite;
+          }
+          @keyframes dtz-spinner {
+            0% {
+              transform: rotate(0deg);
+            }
+            100% {
+              transform: rotate(360deg);
+            }
+          }`);
         return styles;
     }
     connectedCallback() {
@@ -36,10 +71,11 @@ class DtzCard extends HTMLElement {
             loading= true;
             slot.addEventListener("slotchange", (e) => {
                 this.querySelector("h5").classList.remove("loading");
+                this.querySelector(".dtz-spinner").classList.add("hide");
             });
         }
         let title_str = title ? `<h5 class="dtz-heading ${loading ? 'loading' : ''}">${title}</h5>` : '';
-        let spinner = loading ? `<div class="spinner-border" role="status">
+        let spinner = loading ? `<div class="dtz-spinner" role="status">
   <span class="visually-hidden">Loading...</span>
 </div>`: "";
         shadow.innerHTML = `<div class="dtz-card">
