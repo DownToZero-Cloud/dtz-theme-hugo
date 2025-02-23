@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 {{- partial "head.html" . -}}
-
 <body style="display: flex;flex-direction: column;min-height: 100vh;">
     {{- partial "header.html" . -}}
     <div style="flex-grow:1;display:flex;flex-direction: column;">
@@ -11,7 +10,7 @@
     {{ $jsfile := (printf "%s%s%s" .Dir .TranslationBaseName ".js") }}
     {{ if (fileExists $jsfile) -}}
     <script>
-        { {readFile $jsfile | safeJS } }
+        {{ readFile $jsfile | safeJS }}
     </script>
     {{ end }}
     {{ end }}
@@ -19,11 +18,7 @@
     {{ $cssfile := (printf "%s%s%s" .Dir .TranslationBaseName ".css") }}
     {{ if (fileExists $cssfile) -}}
     <style>
-        {
-                {
-                readFile $cssfile | safeCSS
-            }
-        }
+        {{ readFile $cssfile | safeCSS }}
     </style>
     {{ end }}
     {{ end }}
@@ -34,13 +29,11 @@
             --dtz-light: hsl(105 100% 90%);
             --dtz-normal: hsl(105 100% 30%);
         }
-
         .dtz-heading {
             background-color: var(--dtz-light);
             border-radius: 1em;
             text-align: center;
         }
-
         .dtz-card {
             margin: 1em;
             width: 27em;
@@ -50,5 +43,4 @@
         }
     </style>
 </body>
-
 </html>
