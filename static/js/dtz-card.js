@@ -12,6 +12,7 @@ class DtzCard extends HTMLElement {
             margin-block-start: 0;
             margin-block-end: 0;
             font-size: 1.25rem;
+            transition: background-color 1s, height 1s;
         }`);
         styles.insertRule(`.dtz-heading.loading {
             background-color: var(--bs-secondary-bg-subtle);
@@ -60,10 +61,6 @@ class DtzCard extends HTMLElement {
         }`);
         return styles;
     }
-    slotChange(slot){
-        this.querySelector("h5").classList.remove("loading");
-        this.querySelector(".dtz-spinner").classList.add("hide");
-    }
     connectedCallback() {
         const shadow = this.attachShadow({ mode: "open" });
         shadow.adoptedStyleSheets = [this.styles()];
@@ -76,8 +73,13 @@ class DtzCard extends HTMLElement {
         shadow.innerHTML = `<div class="dtz-card">
             ${title_str}
             <div style="margin: 1em;"><div class="dtz-spinner" role="status"></div>
-            <slot onslotchange="slotChange()"></slot></div>
+            <slot></slot></div>
         </div>`;
+        shadow.querySelector("slot").addEventListener("slotchange", (e) => {
+            console.log(e);
+            this.querySelector("h5").classList.remove("loading");
+            this.querySelector(".dtz-spinner").classList.add("hide");
+        });
     }
 }
 window.customElements.define('dtz-card', DtzCard);
