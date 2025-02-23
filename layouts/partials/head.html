@@ -1,3 +1,4 @@
+<head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
 <title>{{ .Title }}</title>
@@ -9,6 +10,7 @@
 <script src="/parseJwt.js"></script>
 <link rel="shortcut icon" type="image/svg+xml" href="/logo.svg" />
 <link rel="icon" sizes="any" type="image/svg+xml" href="/logo.svg">
-{{ with .Page.Params.components }}
+{{ with .Params.components }}
 <script type="module"src="/js/{{ . }}.js"></script>
 {{ end }}
+</head>
