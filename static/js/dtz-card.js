@@ -27,16 +27,16 @@ class DtzCard extends HTMLElement {
         styles.insertRule(`.dtz-spinner {
             /* change color here */
             color: #1c4c5b
-          }`);
+        }`);
         styles.insertRule(`.dtz-spinner,
           .dtz-spinner:after {
             box-sizing: border-box;
-          }`);
+        }`);
         styles.insertRule(`.dtz-spinner {
             display: inline-block;
             width: 80px;
             height: 80px;
-          }`);
+        }`);
         styles.insertRule(`.dtz-spinner.hide {
             display: none;
         }`);
@@ -50,15 +50,15 @@ class DtzCard extends HTMLElement {
             border: 6.4px solid currentColor;
             border-color: currentColor transparent currentColor transparent;
             animation: dtz-spinner 1.2s linear infinite;
-          }
-          @keyframes dtz-spinner {
+        }`);
+        styles.insertRule(`@keyframes dtz-spinner {
             0% {
               transform: rotate(0deg);
             }
             100% {
               transform: rotate(360deg);
             }
-          }`);
+        }`);
         return styles;
     }
     connectedCallback() {
