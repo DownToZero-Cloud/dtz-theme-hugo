@@ -2,15 +2,6 @@ class DtzCard extends HTMLElement {
     constructor() {
         super();
     }
-    attributeChangedCallback(name, oldValue, newValue) {
-        if (name == 'loading') {
-            if (newValue) {
-                this.querySelector("h5").classList.add("loading");
-            } else {
-                this.querySelector("h5").classList.remove("loading");
-            }
-        }
-    }
     styles() {
         const styles = new CSSStyleSheet();
         styles.insertRule(`.dtz-heading {
@@ -39,7 +30,14 @@ class DtzCard extends HTMLElement {
         const shadow = this.attachShadow({ mode: "open" });
         shadow.adoptedStyleSheets = [this.styles()];
         let title = this.getAttribute('title');
-        let loading = this.getAttribute('loading');
+        let slot = shadow.querySelector("slot");
+        let loading = false;
+        if (!slot.hasChildNodes){
+            loading= true;
+            slot.addEventListener("slotchange", (e) => {
+                this.querySelector("h5").classList.remove("loading");
+            });
+        }
         let title_str = title ? `<h5 class="dtz-heading ${loading ? 'loading' : ''}">${title}</h5>` : '';
         let spinner = loading ? `<div class="spinner-border" role="status">
   <span class="visually-hidden">Loading...</span>
