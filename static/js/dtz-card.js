@@ -25,8 +25,7 @@ class DtzCard extends HTMLElement {
             overflow: hidden;
         }`);
         styles.insertRule(`.dtz-spinner {
-            /* change color here */
-            color: #1c4c5b
+            color: var(--dtz-normal);
         }`);
         styles.insertRule(`.dtz-spinner,
           .dtz-spinner:after {
@@ -34,8 +33,8 @@ class DtzCard extends HTMLElement {
         }`);
         styles.insertRule(`.dtz-spinner {
             display: inline-block;
-            width: 80px;
-            height: 80px;
+            width: 48px;
+            height: 48px;
         }`);
         styles.insertRule(`.dtz-spinner.hide {
             display: none;
@@ -43,8 +42,8 @@ class DtzCard extends HTMLElement {
         styles.insertRule(`.dtz-spinner:after {
             content: " ";
             display: block;
-            width: 64px;
-            height: 64px;
+            width: 48px;
+            height: 48px;
             margin: 8px;
             border-radius: 50%;
             border: 6.4px solid currentColor;
@@ -76,9 +75,8 @@ class DtzCard extends HTMLElement {
         let title_str = title ? `<h5 class="dtz-heading loading">${title}</h5>` : '';
         shadow.innerHTML = `<div class="dtz-card">
             ${title_str}
-            <div style="margin: 1em;"><div class="dtz-spinner" role="status">
-  <span class="visually-hidden">Loading...</span>
-</div><slot></slot></div>
+            <div style="margin: 1em;"><div class="dtz-spinner" role="status"></div>
+            <slot onslotchange="slotChange()"></slot></div>
         </div>`;
     }
 }
