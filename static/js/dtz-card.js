@@ -27,6 +27,8 @@ class DtzCard extends HTMLElement {
         }`);
         styles.insertRule(`.dtz-spinner {
             color: var(--dtz-normal);
+            display: block;
+            justify-self: center;
         }`);
         styles.insertRule(`.dtz-spinner,
           .dtz-spinner:after {
