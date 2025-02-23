@@ -76,9 +76,8 @@ class DtzCard extends HTMLElement {
             <slot></slot></div>
         </div>`;
         shadow.querySelector("slot").addEventListener("slotchange", (e) => {
-            console.log(e);
-            this.querySelector("h5").classList.remove("loading");
-            this.querySelector(".dtz-spinner").classList.add("hide");
+            shadow.querySelector("h5").classList.remove("loading");
+            shadow.querySelector(".dtz-spinner").classList.add("hide");
         });
     }
 }
