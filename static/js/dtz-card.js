@@ -24,7 +24,6 @@ class DtzCard extends HTMLElement {
             border-radius: 2em;
             border: 2px solid var(--dtz-normal);
             overflow: hidden;
-            transition: all 2s;
         }`);
         styles.insertRule(`.dtz-spinner {
             color: var(--dtz-normal);
