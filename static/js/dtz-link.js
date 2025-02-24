@@ -6,7 +6,6 @@ class DtzLink extends HTMLElement {
     styles() {
         const styles = new CSSStyleSheet();
         styles.insertRule(`a {
-            width: 100%;
             cursor: pointer;
             display: flex;
             align-items: center;
