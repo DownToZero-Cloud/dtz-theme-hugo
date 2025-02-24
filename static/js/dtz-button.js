@@ -1,6 +1,8 @@
 class DtzButton extends HTMLElement {
+    static formAssociated = true;
     constructor() {
         super();
+        this.internals = this.attachInternals();
         this.shadow = this.attachShadow({ mode: "open" });
     }
     styles() {
@@ -138,6 +140,12 @@ class DtzButton extends HTMLElement {
     click(event) {
         this.shadow.querySelector(".dtz-spinner").classList.remove("hide");
         this.shadow.querySelector("button").setAttribute("disabled", "");
+        if (this.internals.form) {
+            event.preventDefault();
+            setTimeout(() => {
+                this.internals.form.dispatchEvent(new SubmitEvent("submit", { submitter: this, bubbles: true, cancelable: true }));
+            }, 0);
+        }
     }
     processingDone() {
         this.shadow.querySelector(".dtz-spinner").classList.add("hide");
