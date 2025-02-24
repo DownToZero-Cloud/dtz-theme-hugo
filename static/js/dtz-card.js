@@ -12,11 +12,11 @@ class DtzCard extends HTMLElement {
             margin-block-start: 0;
             margin-block-end: 0;
             font-size: 1.25rem;
-            transition: background-color 5s linear;
+            transition: background-color 4s;
         }`);
         styles.insertRule(`.dtz-heading.loading {
             background-color: var(--bs-secondary-bg-subtle);
-            transition: background-color 5s linear;
+            transition: background-color 4s;
         }`);
         styles.insertRule(`.dtz-card {
             margin: 1em;
