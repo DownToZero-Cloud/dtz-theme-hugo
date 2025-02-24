@@ -1,13 +1,16 @@
 class DtzButton extends HTMLElement {
     constructor() {
         super();
+        this.shadow = this.attachShadow({ mode: "open" });
     }
     styles() {
         const styles = new CSSStyleSheet();
         styles.insertRule(`button {
             width: 100%;
             cursor: pointer;
-            display: inline-block;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             padding: var(--bs-btn-padding-y) var(--bs-btn-padding-x);
             font-family: var(--bs-btn-font-family);
             font-size: var(--bs-btn-font-size);
@@ -27,6 +30,13 @@ class DtzButton extends HTMLElement {
             color: var(--bs-btn-hover-color);
             background-color: var(--bs-btn-hover-bg);
             border-color: var(--bs-btn-hover-border-color);
+        }`);
+        styles.insertRule(`.btn.disabled, button:disabled {
+            color: var(--bs-btn-disabled-color);
+            pointer-events: none;
+            background-color: var(--bs-btn-disabled-bg);
+            border-color: var(--bs-btn-disabled-border-color);
+            opacity: var(--bs-btn-disabled-opacity);
         }`);
         styles.insertRule(`:host {
             --bs-btn-color: var(--dtz-normal);
@@ -88,12 +98,56 @@ class DtzButton extends HTMLElement {
             --bs-btn-disabled-border-color: #dc3545;
             --bs-gradient: none;
         }`);
+        styles.insertRule(`.dtz-spinner {
+            display: inline-block;
+            margin-top: -0.5em;
+        }`);
+        styles.insertRule(`.dtz-spinner,
+          .dtz-spinner:after {
+            box-sizing: border-box;
+        }`);
+        styles.insertRule(`.dtz-spinner {
+            display: inline-block;
+            width: 1em;
+            height: 1em;
+        }`);
+        styles.insertRule(`.dtz-spinner.hide {
+            display: none;
+        }`);
+        styles.insertRule(`.dtz-spinner:after {
+            content: " ";
+            display: block;
+            width: 1em;
+            height: 1em;
+            margin: 0.25em;
+            border-radius: 50%;
+            border: 0.125em solid currentColor;
+            border-color: currentColor transparent currentColor transparent;
+            animation: dtz-spinner 1.2s linear infinite;
+        }`);
+        styles.insertRule(`@keyframes dtz-spinner {
+            0% {
+              transform: rotate(0deg);
+            }
+            100% {
+              transform: rotate(360deg);
+            }
+        }`);
         return styles;
     }
+    click(event) {
+        this.shadow.querySelector(".dtz-spinner").classList.remove("hide");
+        this.shadow.querySelector("button").setAttribute("disabled", "");
+    }
+    processingDone() {
+        this.shadow.querySelector(".dtz-spinner").classList.add("hide");
+        this.shadow.querySelector("button").removeAttribute("disabled");
+    }
     connectedCallback() {
-        const shadow = this.attachShadow({ mode: "open" });
+        let shadow = this.shadow;
         shadow.adoptedStyleSheets = [this.styles()];
-        shadow.innerHTML = `<button><slot></slot></button>`;
+        shadow.innerHTML = `<button><slot></slot><div class="dtz-spinner hide" role="status"></div></button>`;
+        this.addEventListener("click", this.click.bind(this));
     }
 }
 window.customElements.define('dtz-button', DtzButton);

@@ -9,9 +9,11 @@ components:
     <dtz-button class="danger">Click me</dtz-button>
 </div>
 <script>
-function hello(event) {
+async function hello(event) {
     if(event) event.preventDefault();
+    await new Promise(r => setTimeout(r, 2000));
     alert("Hello");
+    event.target.processingDone();
 }
 document.querySelector("dtz-button.secondary").addEventListener("click", hello);
 document.querySelector("dtz-button.danger").addEventListener("click", hello);
