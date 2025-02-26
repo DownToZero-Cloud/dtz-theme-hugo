@@ -16,7 +16,6 @@ class DtzCard extends HTMLElement {
         }`);
         styles.insertRule(`.dtz-heading.loading {
             background-color: var(--bs-secondary-bg-subtle);
-            transition: background-color 4s;
         }`);
         styles.insertRule(`.dtz-card {
             margin: 1em;
@@ -24,6 +23,10 @@ class DtzCard extends HTMLElement {
             border-radius: 2em;
             border: 2px solid var(--dtz-normal);
             overflow: hidden;
+            transition: border-color 4s;
+        }`);
+        styles.insertRule(`.dtz-card:has(h5.loading) {
+            border-color: var(--bs-secondary-bg-subtle);
         }`);
         styles.insertRule(`.dtz-spinner {
             color: var(--dtz-normal);
