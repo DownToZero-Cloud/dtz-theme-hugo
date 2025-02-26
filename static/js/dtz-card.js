@@ -28,6 +28,19 @@ class DtzCard extends HTMLElement {
         styles.insertRule(`.dtz-heading.loading {
             background-color: var(--bs-secondary-bg-subtle);
         }`);
+        styles.insertRule(`.actions {
+            margin: 1em;
+        }`);
+        styles.insertRule(`:host(.compact) .actions {
+            display: flex;
+            margin: 1em;
+        }`);
+        styles.insertRule(`:host(.compact.actions-end) .actions {
+            justify-content: flex-end;
+        }`);
+        styles.insertRule(`:host(.compact.actions-space-between) .actions {
+            justify-content: space-between;
+        }`);
         styles.insertRule(`:host(.compact) .dtz-card {
             border-radius: 1.5em;
         }`);
@@ -93,6 +106,9 @@ class DtzCard extends HTMLElement {
             ${title_str}
             <div class="content"><div class="dtz-spinner" role="status"></div>
             <slot></slot></div>
+            <div class="actions">
+                <slot name="actions"></slot>
+            </div>
         </div>`;
         shadow.querySelector("slot").addEventListener("slotchange", (e) => {
             shadow.querySelector("h5").classList.remove("loading");
