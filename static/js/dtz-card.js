@@ -14,6 +14,9 @@ class DtzCard extends HTMLElement {
             font-size: 1.25rem;
             transition: background-color 4s;
         }`);
+        styles.insertRule(`:host {
+            display: block;
+        }`);
         styles.insertRule(`:host(.compact) .dtz-heading {
             font-size: 1rem;
             padding-top: 0.25em;
