@@ -27,6 +27,7 @@ class DtzCard extends HTMLElement {
         }`);
         styles.insertRule(`.content {
             margin: 1em;
+            display: grid;
         }`);
         styles.insertRule(`.dtz-heading.loading {
             background-color: var(--bs-secondary-bg-subtle);
@@ -60,8 +61,8 @@ class DtzCard extends HTMLElement {
         }`);
         styles.insertRule(`.dtz-spinner {
             color: var(--dtz-normal);
-            display: block;
             justify-self: center;
+            margin-bottom: 0.5em;
         }`);
         styles.insertRule(`.dtz-spinner,
           .dtz-spinner:after {
