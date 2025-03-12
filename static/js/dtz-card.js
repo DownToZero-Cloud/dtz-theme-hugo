@@ -115,8 +115,8 @@ class DtzCard extends HTMLElement {
             </div>
         </div>`;
         shadow.querySelector("slot").addEventListener("slotchange", (e) => {
-            shadow.querySelector("h5").classList.remove("loading");
-            shadow.querySelector(".dtz-spinner").classList.add("hide");
+            shadow.querySelector("h5")?.classList.remove("loading");
+            shadow.querySelector(".dtz-spinner")?.classList.add("hide");
         });
     }
 }
