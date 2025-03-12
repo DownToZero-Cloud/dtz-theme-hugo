@@ -67,7 +67,7 @@ class DtzButton extends HTMLElement {
             --bs-btn-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075);
             --bs-btn-disabled-opacity: 0.65;
             --bs-btn-focus-box-shadow: 0 0 0 0.25rem rgba(var(--bs-btn-focus-shadow-rgb), .5);
-            display: block;
+            display: inline-block;
         }`);
         styles.insertRule(`:host(.secondary) {
             --bs-btn-color: #6c757d;
