@@ -1,4 +1,4 @@
-class DtzButton extends HTMLElement {
+export class DtzButton extends HTMLElement {
     static formAssociated = true;
     constructor() {
         super();
