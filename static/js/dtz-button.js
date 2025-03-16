@@ -33,7 +33,7 @@ export class DtzButton extends HTMLElement {
             background-color: var(--bs-btn-hover-bg);
             border-color: var(--bs-btn-hover-border-color);
         }`);
-        styles.insertRule(`.btn.disabled, button:disabled {
+        styles.insertRule(`:host(.disabled), :host([disabled]) {
             color: var(--bs-btn-disabled-color);
             pointer-events: none;
             background-color: var(--bs-btn-disabled-bg);

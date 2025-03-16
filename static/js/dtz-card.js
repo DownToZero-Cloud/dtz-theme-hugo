@@ -1,4 +1,4 @@
-class DtzCard extends HTMLElement {
+export class DtzCard extends HTMLElement {
     constructor() {
         super();
     }

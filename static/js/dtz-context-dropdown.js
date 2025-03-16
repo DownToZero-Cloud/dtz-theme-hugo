@@ -1,4 +1,4 @@
-class DtzContextDropdown extends HTMLElement {
+export class DtzContextDropdown extends HTMLElement {
     constructor() {
         super();
     }

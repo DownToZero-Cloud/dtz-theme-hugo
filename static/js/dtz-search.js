@@ -1,4 +1,4 @@
-class DtzSearch extends HTMLElement {
+export class DtzSearch extends HTMLElement {
     constructor() {
         super();
         this.shadow = this.attachShadow({ mode: "open" });

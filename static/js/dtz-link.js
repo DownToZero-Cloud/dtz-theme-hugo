@@ -1,4 +1,4 @@
-class DtzLink extends HTMLElement {
+export class DtzLink extends HTMLElement {
     constructor() {
         super();
         this.shadow = this.attachShadow({ mode: "open" });
