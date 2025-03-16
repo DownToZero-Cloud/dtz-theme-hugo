@@ -2,7 +2,7 @@ import { DtzLink } from '../../static/js/dtz-link.js';
 
 export default {
     component: 'dtz-link',
-    render: (args) => `<dtz-link href="https://www.google.com">${args.label}</dtz-link>`,
+    render: (args) => `<dtz-link class="${args.class || ''}" href="#">${args.label}</dtz-link>`,
 };
 
 export const Default = {
@@ -14,13 +14,13 @@ export const Default = {
 export const Secondary = {
     args: {
         label: 'Secondary Link',
+        class: 'secondary',
     },
-    render: (args) => `<dtz-link class="secondary" href="https://www.google.com">${args.label}</dtz-link>`,
 };
 
 export const Danger = {
     args: {
         label: 'Danger Link',
+        class: 'danger',
     },
-    render: (args) => `<dtz-link class="danger" href="https://www.google.com">${args.label}</dtz-link>`,
 };

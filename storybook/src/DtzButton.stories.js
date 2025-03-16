@@ -12,12 +12,19 @@ export default {
       disabled: false,
       loading: false,
     },
-    render: (args) => `<dtz-button class="${args.class ? `${args.class}` : ''}" ${args.disabled ? 'disabled' : ''}>${args.label}</dtz-button>`,
+    render: (args) => `<dtz-button class="${args.class ? `${args.class}` : ''}" ${args.disabled ? 'disabled' : ''} ${args.loading ? 'loading' : ''}>${args.label}</dtz-button>`,
 };
 
 export const Default = {
     args: {
         label: 'Default Button',
+    },
+};
+
+export const DefaultLoading = {
+    args: {
+        label: 'Default Button',
+        loading: true,
     },
 };
 

@@ -101,8 +101,11 @@ export class DtzButton extends HTMLElement {
             --bs-btn-disabled-border-color: #dc3545;
             --bs-gradient: none;
         }`);
-        styles.insertRule(`.dtz-spinner {
+        styles.insertRule(`:host([loading]) .dtz-spinner{
             display: inline-block;
+        }`)
+        styles.insertRule(`.dtz-spinner {
+            display: none;
             margin-top: -0.5em;
         }`);
         styles.insertRule(`.dtz-spinner,
@@ -113,9 +116,6 @@ export class DtzButton extends HTMLElement {
             display: inline-block;
             width: 1em;
             height: 1em;
-        }`);
-        styles.insertRule(`.dtz-spinner.hide {
-            display: none;
         }`);
         styles.insertRule(`.dtz-spinner:after {
             content: " ";
@@ -139,8 +139,8 @@ export class DtzButton extends HTMLElement {
         return styles;
     }
     click(event) {
-        this.shadow.querySelector(".dtz-spinner").classList.remove("hide");
-        this.shadow.querySelector("button").setAttribute("disabled", "");
+        this.setAttribute("loading", "");
+        this.setAttribute("disabled", "");
         if (this.internals.form) {
             event.preventDefault();
             setTimeout(() => {
@@ -149,13 +149,13 @@ export class DtzButton extends HTMLElement {
         }
     }
     processingDone() {
-        this.shadow.querySelector(".dtz-spinner").classList.add("hide");
-        this.shadow.querySelector("button").removeAttribute("disabled");
+        this.removeAttribute("loading");
+        this.removeAttribute("disabled");
     }
     connectedCallback() {
         let shadow = this.shadow;
         shadow.adoptedStyleSheets = [this.styles()];
-        shadow.innerHTML = `<button><slot></slot><div class="dtz-spinner hide" role="status"></div></button>`;
+        shadow.innerHTML = `<button><slot></slot><div class="dtz-spinner" role="status"></div></button>`;
         this.addEventListener("click", this.click.bind(this));
     }
 }
