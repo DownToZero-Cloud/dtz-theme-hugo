@@ -33,3 +33,12 @@ export const WithActions = {
         actions: '<dtz-button slot="actions">Action 1</dtz-button> <dtz-button slot="actions" class="secondary">Action 2</dtz-button>',
     },
 };
+
+
+export const WithActionsFullLine = {
+    args: {
+        title: 'Card with Actions',
+        content: 'This card has action buttons.',
+        actions: '<dtz-button slot="actions" style="display: block;">Action 1</dtz-button>',
+    },
+};
