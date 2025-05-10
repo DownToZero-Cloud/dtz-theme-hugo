@@ -103,7 +103,6 @@ export class DtzCard extends HTMLElement {
         let title = this.getAttribute('title');
         setTimeout(() => {
             let slot = shadow.querySelector("slot");
-            console.log(slot.hasChildNodes);
         },0);
         let title_str = title ? `<h5 class="dtz-heading loading">${title}</h5>` : '';
         shadow.innerHTML = `<div class="dtz-card">
