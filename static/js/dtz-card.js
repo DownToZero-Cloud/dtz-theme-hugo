@@ -109,9 +109,6 @@ export class DtzCard extends HTMLElement {
     connectedCallback() {
         this.shadow.adoptedStyleSheets = [this.styles()];
         let title = this.getAttribute('title');
-        setTimeout(() => {
-            let slot = this.shadow.querySelector("slot");
-        },0);
         let title_str = title ? `<h5 class="dtz-heading loading">${title}</h5>` : '';
         this.shadow.innerHTML = `<div class="dtz-card">
             ${title_str}
