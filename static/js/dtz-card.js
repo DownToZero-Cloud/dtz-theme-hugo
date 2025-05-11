@@ -1,6 +1,7 @@
 export class DtzCard extends HTMLElement {
     constructor() {
         super();
+        this.shadow = this.attachShadow({ mode: "open" });
     }
     styles() {
         const styles = new CSSStyleSheet();
@@ -102,11 +103,10 @@ export class DtzCard extends HTMLElement {
     }
     attributeChangedCallback(name, oldValue, newValue) {
         if (name === 'title') {
-            this.shadow.querySelector("h5").textContent = newValue;
+            this.shadow.querySelector("h5")?.textContent = newValue;
         }
     }
     connectedCallback() {
-        this.shadow = this.attachShadow({ mode: "open" });
         this.shadow.adoptedStyleSheets = [this.styles()];
         let title = this.getAttribute('title');
         setTimeout(() => {
