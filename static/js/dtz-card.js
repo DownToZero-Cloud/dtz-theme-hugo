@@ -97,15 +97,23 @@ export class DtzCard extends HTMLElement {
         }`);
         return styles;
     }
+    static get observedAttributes() {
+        return ['title'];
+    }
+    attributeChangedCallback(name, oldValue, newValue) {
+        if (name === 'title') {
+            this.shadow.querySelector("h5").textContent = newValue;
+        }
+    }
     connectedCallback() {
-        const shadow = this.attachShadow({ mode: "open" });
-        shadow.adoptedStyleSheets = [this.styles()];
+        this.shadow = this.attachShadow({ mode: "open" });
+        this.shadow.adoptedStyleSheets = [this.styles()];
         let title = this.getAttribute('title');
         setTimeout(() => {
-            let slot = shadow.querySelector("slot");
+            let slot = this.shadow.querySelector("slot");
         },0);
         let title_str = title ? `<h5 class="dtz-heading loading">${title}</h5>` : '';
-        shadow.innerHTML = `<div class="dtz-card">
+        this.shadow.innerHTML = `<div class="dtz-card">
             ${title_str}
             <div class="content"><div class="dtz-spinner" role="status"></div>
             <slot></slot></div>
@@ -113,9 +121,9 @@ export class DtzCard extends HTMLElement {
                 <slot name="actions"></slot>
             </div>
         </div>`;
-        shadow.querySelector("slot").addEventListener("slotchange", (e) => {
-            shadow.querySelector("h5")?.classList.remove("loading");
-            shadow.querySelector(".dtz-spinner")?.classList.add("hide");
+        this.shadow.querySelector("slot").addEventListener("slotchange", (e) => {
+            this.shadow.querySelector("h5")?.classList.remove("loading");
+            this.shadow.querySelector(".dtz-spinner")?.classList.add("hide");
         });
     }
 }
