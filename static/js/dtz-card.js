@@ -103,7 +103,10 @@ export class DtzCard extends HTMLElement {
     }
     attributeChangedCallback(name, oldValue, newValue) {
         if (name === 'title') {
-            this.shadow.querySelector("h5")?.textContent = newValue;
+            let h5 = this.shadow.querySelector("h5");
+            if (h5) {
+                h5.textContent = newValue;
+            }
         }
     }
     connectedCallback() {
