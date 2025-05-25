@@ -204,54 +204,70 @@
                     });
             }
             let processed_contexts = [];
-            for (context_id of x.contexts) {
-                let li = document.createElement("li");
-                let link = document.createElement("a");
-                link.href = "#";
-                link.className = "dropdown-item";
-                link.addEventListener('click', changeContext);
-                link.id = "ctx" + context_id.replaceAll('-', '');
-                link.dataset.contextid = context_id;
-                if (knownContexts[context_id]) {
-                    link.textContent = knownContexts[context_id].alias;
-
-                } else {
-                    link.textContent = context_id;
-                    fetch("https://dtz.rocks/api/2021-12-09/context/" + context_id, {
-                        credentials: 'include'
-                    })
-                        .then(r =>{
-                            if(r.status == 401){
-                                window.location="https://identity.dtz.rocks/login?rd="+encodeURI(window.location.href);
-                            }else{
-                                return r.json();
-                            }
-                        })
-                        .then(data => {
-                            if (data) {
-                                let id = `#ctx${data.contextId.replaceAll('-', '')}`;
-                                let el = document.querySelector(id);
-                                el.textContent = `${data.alias} `;
-                                document.querySelector(`#ctx${data.contextId.replaceAll('-', '')}`);
-                                knownContexts[data.contextId] = { alias: data.alias };
-                                // wrap around storage headers
-                                let x = {
-                                    ts: new Date().getTime(),
-                                    version: "1",
-                                    data: knownContexts
-                                };
-                                localStorage.contexts = JSON.stringify(x);
-                                // check for current context
-                                if (data.contextId == x.scope) {
-                                    document.querySelector(`#currentContext`).textContent = data.alias;
-                                }
-                            }
-                        });
+            // fetch list of available contexts
+            fetch("https://identity.dtz.rocks/api/2021-02-21/context", {
+                credentials: 'include'
+            }).then(r => {
+                if(r.status == 401){
+                    window.location="https://identity.dtz.rocks/login?rd="+encodeURI(window.location.href);
+                }else{
+                    return r.json();
                 }
-                li.appendChild(link);
-                processed_contexts.push(context_id);
-                document.getElementById("contextList").appendChild(li);
-            }
+            }).then(data => {
+                /*data=[{
+                    "context_id": "context-uaq7weuv"
+                }]*/
+                for (entry of data) {
+                    let context_id = entry.contextId;
+                    let li = document.createElement("li");
+                    let link = document.createElement("a");
+                    link.href = "#";
+                    link.className = "dropdown-item";
+                    link.addEventListener('click', changeContext);
+                    link.id = "ctx" + context_id.replaceAll('-', '');
+                    link.dataset.contextid = context_id;
+                    if (knownContexts[context_id]) {
+                        link.textContent = knownContexts[context_id].alias;
+
+                    } else {
+                        link.textContent = context_id;
+                        fetch("https://dtz.rocks/api/2021-12-09/context/" + context_id, {
+                            credentials: 'include'
+                        })
+                            .then(r =>{
+                                if(r.status == 401){
+                                    window.location="https://identity.dtz.rocks/login?rd="+encodeURI(window.location.href);
+                                }else{
+                                    return r.json();
+                                }
+                            })
+                            .then(data => {
+                                if (data) {
+                                    let id = `#ctx${data.contextId.replaceAll('-', '')}`;
+                                    let el = document.querySelector(id);
+                                    el.textContent = `${data.alias} `;
+                                    document.querySelector(`#ctx${data.contextId.replaceAll('-', '')}`);
+                                    knownContexts[data.contextId] = { alias: data.alias };
+                                    // wrap around storage headers
+                                    let x = {
+                                        ts: new Date().getTime(),
+                                        version: "1",
+                                        data: knownContexts
+                                    };
+                                    localStorage.contexts = JSON.stringify(x);
+                                    // check for current context
+                                    if (data.contextId == x.scope) {
+                                        document.querySelector(`#currentContext`).textContent = data.alias;
+                                    }
+                                }
+                            });
+                    }
+                    li.appendChild(link);
+                    processed_contexts.push(context_id);
+                    document.getElementById("contextList").appendChild(li);
+                }
+            });
+
             document.querySelector("#userControl").style.display = "block";
             // async fire - send event for user is logged in
             window.setTimeout(()=> {
