@@ -51,7 +51,6 @@ export class DtzCard extends HTMLElement {
         }`);
         styles.insertRule(`.dtz-card {
             margin: 1em;
-            min-width: 27em;
             border-radius: 2em;
             border: 2px solid var(--dtz-normal);
             overflow: hidden;
