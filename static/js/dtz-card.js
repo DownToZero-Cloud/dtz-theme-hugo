@@ -38,7 +38,7 @@ export class DtzCard extends HTMLElement {
         }`);
         styles.insertRule(`:host(.compact) .actions {
             display: flex;
-            margin: 1em;
+            margin: 0.5em;
         }`);
         styles.insertRule(`:host(.compact.actions-end) .actions {
             justify-content: flex-end;
