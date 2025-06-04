@@ -26,6 +26,15 @@ export const CompactCard = {
     },
 };
 
+export const CompactWithActionsEnd = {
+    args: {
+        title: 'Card with Actions at the End',
+        content: 'This card has action buttons.',
+        class: 'compact actions-end',
+        actions: '<dtz-button slot="actions">Action 1</dtz-button> <dtz-button slot="actions" class="secondary">Action 2</dtz-button>',
+    },
+};
+
 export const WithActions = {
     args: {
         title: 'Card with Actions',
@@ -33,7 +42,6 @@ export const WithActions = {
         actions: '<dtz-button slot="actions">Action 1</dtz-button> <dtz-button slot="actions" class="secondary">Action 2</dtz-button>',
     },
 };
-
 
 export const WithActionsFullLine = {
     args: {
