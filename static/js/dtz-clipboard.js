@@ -81,6 +81,12 @@ export class DtzClipboard extends HTMLElement {
             --bs-btn-focus-box-shadow: 0 0 0 0.25rem rgba(var(--bs-btn-focus-shadow-rgb), .5);
             display: inline-block;
         }`);
+        styles.insertRule(`:host(.minimal) {
+            --bs-btn-border-width: 0;
+        }`);
+        styles.insertRule(`:host(.minimal) span {
+            display: none;
+        }`);
         return styles;
     }
     click(event) {
