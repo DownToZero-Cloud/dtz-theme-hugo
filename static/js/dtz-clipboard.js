@@ -91,7 +91,7 @@ export class DtzClipboard extends HTMLElement {
     }
     click(event) {
         if(event){event.preventDefault()}
-        let content = this.innerText;
+        let content = this.childNodes[0].textContent;
         navigator.clipboard.writeText(content);
         this.shadow.querySelector("#clipboard").style.display = "none";
         this.shadow.querySelector("#clipboard-check").style.display = "block";
