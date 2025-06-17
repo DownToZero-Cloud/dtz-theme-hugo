@@ -59,3 +59,11 @@ export const WithActionsFullLine = {
         actions: '<dtz-button slot="actions" style="display: block;">Action 1</dtz-button>',
     },
 };
+
+export const Warning = {
+    args: {
+        title: 'Warning Card',
+        content: 'This card has action buttons.',
+        class: 'warning',
+    },
+};
