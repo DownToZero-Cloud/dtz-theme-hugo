@@ -51,10 +51,11 @@ export class DtzCard extends HTMLElement {
             justify-content: space-between;
         }`);
         styles.insertRule(`:host(.compact) .dtz-card {
-            border-radius: 1.5em;
+            border-radius: 1.5rem;
         }`);
         styles.insertRule(`.dtz-card {
             border: 2px solid var(--dtz-normal);
+            border-radius: 2rem;
             overflow: hidden;
             transition: border-color 4s;
         }`);
