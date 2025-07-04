@@ -13,15 +13,35 @@ export default {
 export const Default = {
     args: {
         title: 'Card Title',
-        content: 'This is the card content.',
+        content: '<div slot="content-slot1">This is the card content.</div>',
     },
 };
 
+export const WithCollapsibleContent = {
+    args: {
+        title: 'Card with Collapsible Content',
+        content: `
+            <div slot="content-slot1">This is the always visible content.</div>
+            <div slot="content-slot2">This is the collapsible content that is initially hidden.</div>
+        `,
+    },
+};
 
 export const CompactCard = {
     args: {
         title: 'Card Title',
-        content: 'This is the card content.',
+        content: '<div slot="content-slot1">This is the card content.</div>',
+        class: 'compact',
+    },
+};
+
+export const CompactWithCollapsibleContent = {
+    args: {
+        title: 'Compact Card with Collapsible Content',
+        content: `
+            <div slot="content-slot1">This is the always visible content.</div>
+            <div slot="content-slot2">This is the collapsible content that is initially hidden.</div>
+        `,
         class: 'compact',
     },
 };
@@ -29,7 +49,7 @@ export const CompactCard = {
 export const CompactWithActionsEnd = {
     args: {
         title: 'Card with Actions at the End',
-        content: 'This card has action buttons.',
+        content: '<div slot="content-slot1">This card has action buttons.</div>',
         class: 'compact actions-end',
         actions: '<dtz-button slot="actions">Action 1</dtz-button> <dtz-button slot="actions" class="secondary">Action 2</dtz-button>',
     },
@@ -38,7 +58,7 @@ export const CompactWithActionsEnd = {
 export const CompactWithActionsSpaceBetween = {
     args: {
         title: 'Card with Actions at the End',
-        content: 'This card has action buttons.',
+        content: '<div slot="content-slot1">This card has action buttons.</div>',
         class: 'compact actions-space-between',
         actions: '<dtz-button slot="actions">Action 1</dtz-button> <dtz-button slot="actions" class="secondary">Action 2</dtz-button>',
     },
@@ -47,7 +67,7 @@ export const CompactWithActionsSpaceBetween = {
 export const WithActions = {
     args: {
         title: 'Card with Actions',
-        content: 'This card has action buttons.',
+        content: '<div slot="content-slot1">This card has action buttons.</div>',
         actions: '<dtz-button slot="actions">Action 1</dtz-button> <dtz-button slot="actions" class="secondary">Action 2</dtz-button>',
     },
 };
@@ -55,7 +75,7 @@ export const WithActions = {
 export const WithActionsFullLine = {
     args: {
         title: 'Card with Actions',
-        content: 'This card has action buttons.',
+        content: '<div slot="content-slot1">This card has action buttons.</div>',
         actions: '<dtz-button slot="actions" style="display: block;">Action 1</dtz-button>',
     },
 };
@@ -63,7 +83,7 @@ export const WithActionsFullLine = {
 export const Warning = {
     args: {
         title: 'Warning Card',
-        content: 'This card has action buttons.',
+        content: '<div slot="content-slot1">This card has action buttons.</div>',
         class: 'warning',
     },
 };
