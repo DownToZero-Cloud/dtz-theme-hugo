@@ -207,7 +207,13 @@ export class DtzCard extends HTMLElement {
             const icon = expandButton.querySelector('svg');
             icon.style.transform = collapsibleContent.hidden ? 'rotate(0deg)' : 'rotate(180deg)';
         });
-        if (expandedContentSlot.assignedNodes().length > 0) {
+        
+        // Initial check for expand button visibility - use same logic as MutationObserver
+        const hasInitialContent = expandedContentSlot.assignedNodes().some(node =>
+            node.nodeType === Node.ELEMENT_NODE ||
+            (node.nodeType === Node.TEXT_NODE && node.textContent.trim() !== '')
+        );
+        if (hasInitialContent) {
             expandContainer.removeAttribute("hidden");
         }
 
