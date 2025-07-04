@@ -164,7 +164,7 @@ export class DtzCard extends HTMLElement {
             ${title_str}
             <div class="content">
                 <div class="dtz-spinner" role="status"></div>
-                <slot name="content-slot1"></slot>
+                <slot name="content"></slot>
             </div>
             <div class="expand-container" hidden>
                 <button class="expand-button">
@@ -174,26 +174,26 @@ export class DtzCard extends HTMLElement {
                 </button>
             </div>
             <div class="collapsible-content" hidden>
-                <slot name="content-slot2"></slot>
+                <slot name="content-expanded"></slot>
             </div>
             <div class="actions">
                 <slot name="actions" class="actions-slot"></slot>
             </div>
         </div>`;
 
-        const contentSlot1 = this.shadow.querySelector("slot[name='content-slot1']");
-        const contentSlot2 = this.shadow.querySelector("slot[name='content-slot2']");
+        const contentSlot = this.shadow.querySelector("slot[name='content']");
+        const expandedContentSlot = this.shadow.querySelector("slot[name='content-expanded']");
         const expandButton = this.shadow.querySelector('.expand-button');
         const collapsibleContent = this.shadow.querySelector('.collapsible-content');
         const expandContainer = this.shadow.querySelector('.expand-container');
 
-        contentSlot1.addEventListener("slotchange", () => {
+        contentSlot.addEventListener("slotchange", () => {
             this.shadow.querySelector("h5")?.classList.remove("loading");
             this.shadow.querySelector(".dtz-spinner")?.classList.add("hide");
         });
 
         const observer = new MutationObserver(() => {
-            const hasContent = contentSlot2.assignedNodes().some(node =>
+            const hasContent = expandedContentSlot.assignedNodes().some(node =>
                 node.nodeType === Node.ELEMENT_NODE ||
                 (node.nodeType === Node.TEXT_NODE && node.textContent.trim() !== '')
             );
@@ -207,7 +207,7 @@ export class DtzCard extends HTMLElement {
             const icon = expandButton.querySelector('svg');
             icon.style.transform = collapsibleContent.hidden ? 'rotate(0deg)' : 'rotate(180deg)';
         });
-        if (contentSlot2.assignedNodes().length > 0) {
+        if (expandedContentSlot.assignedNodes().length > 0) {
             expandContainer.removeAttribute("hidden");
         }
 
