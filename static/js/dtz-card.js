@@ -36,6 +36,9 @@ export class DtzCard extends HTMLElement {
         styles.insertRule(`.actions {
             margin: 1em;
         }`);
+        styles.insertRule(`.actions.no-margin {
+            margin: 0;
+        }`);
         styles.insertRule(`:host(.warning) {
             --dtz-light: hsl(45 100% 85% / 1);
             --dtz-normal: hsl(45 100% 55% / 1);
@@ -98,6 +101,51 @@ export class DtzCard extends HTMLElement {
               transform: rotate(360deg);
             }
         }`);
+        styles.insertRule(`.expand-container {
+            display: flex;
+            justify-content: center;
+            padding-bottom: 0.5em;
+        }`);
+        styles.insertRule(`.expand-container[hidden] {
+            display: none;
+        }`);
+        styles.insertRule(`.expand-button {
+            background: none;
+            border: 1px solid var(--dtz-normal);
+            color: var(--dtz-normal);
+            border-radius: 50%;
+            cursor: pointer;
+            width: 2rem;
+            height: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s ease-in-out, border-color 4s;
+        }`);
+        styles.insertRule(`.expand-button:hover {
+            transform: scale(1.1);
+        }`);
+        styles.insertRule(`:host(.compact) .expand-button {
+            width: 1.5rem;
+            height: 1.5rem;
+        }`);
+        styles.insertRule(`:host(.compact) .expand-button svg {
+            width: 0.75rem;
+            height: 0.75rem;
+        }`);
+        styles.insertRule(`.expand-button svg {
+            transition: transform 0.3s ease;
+        }`);
+        styles.insertRule(`.collapsible-content {
+            margin: 1em;
+            display: grid;
+        }`);
+        styles.insertRule(`:host(.compact) .collapsible-content {
+            margin: 0.5em;
+        }`);
+        styles.insertRule(`.collapsible-content[hidden] {
+            display: none;
+        }`);
         return styles;
     }
     static get observedAttributes() {
@@ -117,16 +165,77 @@ export class DtzCard extends HTMLElement {
         let title_str = title ? `<h5 class="dtz-heading loading">${title}</h5>` : '';
         this.shadow.innerHTML = `<div class="dtz-card">
             ${title_str}
-            <div class="content"><div class="dtz-spinner" role="status"></div>
-            <slot></slot></div>
+            <div class="content">
+                <div class="dtz-spinner" role="status"></div>
+                <slot name="content"></slot>
+            </div>
+            <div class="expand-container" hidden>
+                <button class="expand-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="collapsible-content" hidden>
+                <slot name="content-expanded"></slot>
+            </div>
             <div class="actions">
-                <slot name="actions"></slot>
+                <slot name="actions" class="actions-slot"></slot>
             </div>
         </div>`;
-        this.shadow.querySelector("slot").addEventListener("slotchange", (e) => {
+
+        const contentSlot = this.shadow.querySelector("slot[name='content']");
+        const expandedContentSlot = this.shadow.querySelector("slot[name='content-expanded']");
+        const actionsSlot = this.shadow.querySelector("slot[name='actions']");
+        const expandButton = this.shadow.querySelector('.expand-button');
+        const collapsibleContent = this.shadow.querySelector('.collapsible-content');
+        const expandContainer = this.shadow.querySelector('.expand-container');
+        const actionsContainer = this.shadow.querySelector('.actions');
+
+        contentSlot.addEventListener("slotchange", () => {
             this.shadow.querySelector("h5")?.classList.remove("loading");
             this.shadow.querySelector(".dtz-spinner")?.classList.add("hide");
         });
+
+        // Handle actions slot visibility
+        const updateActionsMargin = () => {
+            const hasActions = actionsSlot.assignedNodes().some(node =>
+                node.nodeType === Node.ELEMENT_NODE ||
+                (node.nodeType === Node.TEXT_NODE && node.textContent.trim() !== '')
+            );
+            actionsContainer.classList.toggle('no-margin', !hasActions);
+        };
+
+        actionsSlot.addEventListener("slotchange", updateActionsMargin);
+        
+        // Initial check for actions margin
+        updateActionsMargin();
+
+        const observer = new MutationObserver(() => {
+            const hasContent = expandedContentSlot.assignedNodes().some(node =>
+                node.nodeType === Node.ELEMENT_NODE ||
+                (node.nodeType === Node.TEXT_NODE && node.textContent.trim() !== '')
+            );
+            expandContainer.hidden = !hasContent;
+        });
+
+        observer.observe(this, { childList: true, subtree: true });
+
+        expandButton.addEventListener('click', () => {
+            collapsibleContent.hidden = !collapsibleContent.hidden;
+            const icon = expandButton.querySelector('svg');
+            icon.style.transform = collapsibleContent.hidden ? 'rotate(0deg)' : 'rotate(180deg)';
+        });
+        
+        // Initial check for expand button visibility - use same logic as MutationObserver
+        const hasInitialContent = expandedContentSlot.assignedNodes().some(node =>
+            node.nodeType === Node.ELEMENT_NODE ||
+            (node.nodeType === Node.TEXT_NODE && node.textContent.trim() !== '')
+        );
+        if (hasInitialContent) {
+            expandContainer.removeAttribute("hidden");
+        }
+
     }
 }
 window.customElements.define('dtz-card', DtzCard);
