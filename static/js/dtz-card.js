@@ -137,8 +137,11 @@ export class DtzCard extends HTMLElement {
             transition: transform 0.3s ease;
         }`);
         styles.insertRule(`.collapsible-content {
-            margin: 0 1em 1em 1em;
+            margin: 1em;
             display: grid;
+        }`);
+        styles.insertRule(`:host(.compact) .collapsible-content {
+            margin: 0.5em;
         }`);
         styles.insertRule(`.collapsible-content[hidden] {
             display: none;
