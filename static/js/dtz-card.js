@@ -36,6 +36,9 @@ export class DtzCard extends HTMLElement {
         styles.insertRule(`.actions {
             margin: 1em;
         }`);
+        styles.insertRule(`.actions:has(slot:empty) {
+            margin: 0;
+        }`);
         styles.insertRule(`:host(.warning) {
             --dtz-light: hsl(45 100% 85% / 1);
             --dtz-normal: hsl(45 100% 55% / 1);
@@ -174,7 +177,7 @@ export class DtzCard extends HTMLElement {
                 <slot name="content-slot2"></slot>
             </div>
             <div class="actions">
-                <slot name="actions"></slot>
+                <slot name="actions" class="actions-slot"></slot>
             </div>
         </div>`;
 
@@ -204,7 +207,6 @@ export class DtzCard extends HTMLElement {
             const icon = expandButton.querySelector('svg');
             icon.style.transform = collapsibleContent.hidden ? 'rotate(0deg)' : 'rotate(180deg)';
         });
-        console.log("has content "+contentSlot2.assignedNodes().length);
         if (contentSlot2.assignedNodes().length > 0) {
             expandContainer.removeAttribute("hidden");
         }
