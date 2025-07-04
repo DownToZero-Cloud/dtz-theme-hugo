@@ -36,7 +36,7 @@ export class DtzCard extends HTMLElement {
         styles.insertRule(`.actions {
             margin: 1em;
         }`);
-        styles.insertRule(`.actions:has(slot:empty) {
+        styles.insertRule(`.actions.no-margin {
             margin: 0;
         }`);
         styles.insertRule(`:host(.warning) {
@@ -183,14 +183,30 @@ export class DtzCard extends HTMLElement {
 
         const contentSlot = this.shadow.querySelector("slot[name='content']");
         const expandedContentSlot = this.shadow.querySelector("slot[name='content-expanded']");
+        const actionsSlot = this.shadow.querySelector("slot[name='actions']");
         const expandButton = this.shadow.querySelector('.expand-button');
         const collapsibleContent = this.shadow.querySelector('.collapsible-content');
         const expandContainer = this.shadow.querySelector('.expand-container');
+        const actionsContainer = this.shadow.querySelector('.actions');
 
         contentSlot.addEventListener("slotchange", () => {
             this.shadow.querySelector("h5")?.classList.remove("loading");
             this.shadow.querySelector(".dtz-spinner")?.classList.add("hide");
         });
+
+        // Handle actions slot visibility
+        const updateActionsMargin = () => {
+            const hasActions = actionsSlot.assignedNodes().some(node =>
+                node.nodeType === Node.ELEMENT_NODE ||
+                (node.nodeType === Node.TEXT_NODE && node.textContent.trim() !== '')
+            );
+            actionsContainer.classList.toggle('no-margin', !hasActions);
+        };
+
+        actionsSlot.addEventListener("slotchange", updateActionsMargin);
+        
+        // Initial check for actions margin
+        updateActionsMargin();
 
         const observer = new MutationObserver(() => {
             const hasContent = expandedContentSlot.assignedNodes().some(node =>
