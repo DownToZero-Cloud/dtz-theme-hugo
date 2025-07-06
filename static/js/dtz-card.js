@@ -167,7 +167,7 @@ export class DtzCard extends HTMLElement {
             ${title_str}
             <div class="content">
                 <div class="dtz-spinner" role="status"></div>
-                <slot name="content"></slot>
+                <slot></slot>
             </div>
             <div class="expand-container" hidden>
                 <button class="expand-button">
@@ -184,7 +184,7 @@ export class DtzCard extends HTMLElement {
             </div>
         </div>`;
 
-        const contentSlot = this.shadow.querySelector("slot[name='content']");
+        const contentSlot = this.shadow.querySelector("slot");
         const expandedContentSlot = this.shadow.querySelector("slot[name='content-expanded']");
         const actionsSlot = this.shadow.querySelector("slot[name='actions']");
         const expandButton = this.shadow.querySelector('.expand-button');
