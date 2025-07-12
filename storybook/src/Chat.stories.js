@@ -15,7 +15,7 @@ export default {
         ${args.requestContent}
     </dtz-chat-bubble>
     <dtz-chat-bubble class="assistant" style="margin-top: 1em;">
-        ${marked.parse(args.responseContent)}
+        ${args.responseContent}
     </dtz-chat-bubble>
     <dtz-chat-input style="margin-top: 1em;"></dtz-chat-input>`,
 };
@@ -32,6 +32,6 @@ export const Default = {
 export const Markdown = {
     args: {
         requestContent: 'Hello, how are you?',
-        responseContent: '# answering options\n\n- option 1\n- option 2\n- option 3',
+        responseContent: marked.parse('# answering options\n\n- option 1\n- option 2\n- option 3'),
     },
 };
