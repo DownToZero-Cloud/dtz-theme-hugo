@@ -46,7 +46,7 @@ export class DtzChatInput extends HTMLElement {
             position: relative;
             z-index: 2;
         }`);
-        styles.insertRule(`#btnSearch {
+        styles.insertRule(`#btnSubmit {
             border-top-right-radius: 1em;
             border-bottom-right-radius: 1em;
             padding-left: 2em;
@@ -168,16 +168,17 @@ export class DtzChatInput extends HTMLElement {
         }`);
         return styles;
     }
-    search(e) {
+    submit(e) {
         e.preventDefault();
-        this.shadow.querySelector("#btnSearch").innerText = "...";
-        this.shadow.querySelector("#btnSearch").disabled = true;
+        this.shadow.querySelector("#btnSubmit").innerText = "...";
+        this.shadow.querySelector("#btnSubmit").disabled = true;
+        this.dispatchEvent(new CustomEvent('submit', { detail: e.target.search.value }));
         this.dispatchEvent(new CustomEvent('search', { detail: e.target.search.value }));
     }
     processingDone() {
-        this.shadow.querySelector("#btnSearch").innerText = "Go!";
-        this.shadow.querySelector("#btnSearch").disabled = false;
-        this.shadow.querySelector("#search").value = "";
+        this.shadow.querySelector("#btnSubmit").innerText = "Go!";
+        this.shadow.querySelector("#btnSubmit").disabled = false;
+        this.shadow.querySelector("#submit").value = "";
     }
     connectedCallback() {
         let shadow = this.shadow;
@@ -190,13 +191,13 @@ export class DtzChatInput extends HTMLElement {
           <path d="m2.165 15.803.02-.004c1.83-.363 2.948-.842 3.468-1.105A9 9 0 0 0 8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6a10.4 10.4 0 0 1-.524 2.318l-.003.011a11 11 0 0 1-.244.637c-.079.186.074.394.273.362a22 22 0 0 0 .693-.125m.8-3.108a1 1 0 0 0-.287-.801C1.618 10.83 1 9.468 1 8c0-3.192 3.004-6 7-6s7 2.808 7 6-3.004 6-7 6a8 8 0 0 1-2.088-.272 1 1 0 0 0-.711.074c-.387.196-1.24.57-2.634.893a11 11 0 0 0 .398-2"/>
         </svg>
       </span>
-      <input id="search" type="text" class="form-control" placeholder="Type you message here...">
+      <input id="submit" type="text" class="form-control" placeholder="Type you message here...">
       <span class="input-group-btn">
-        <button id="btnSearch" type="submit" class="btn btn-outline-secondary">Go!</button>
+        <button id="btnSubmit" type="submit" class="btn btn-outline-secondary">Go!</button>
       </span>
     </div>
   </form>`;
-        shadow.querySelector("#searchForm").addEventListener('submit', this.search.bind(this));
+        shadow.querySelector("#submitForm").addEventListener('submit', this.search.bind(this));
     }
 }
 window.customElements.define('dtz-chat-input', DtzChatInput);
