@@ -24,7 +24,10 @@ export class DtzCard extends HTMLElement {
             padding-bottom: 0.25em;
         }`);
         styles.insertRule(`:host(.compact) .content {
-            margin: 0.5em;
+            margin-top: 0.5em;
+            margin-bottom: 0.5em;
+            margin-left: 1em;
+            margin-right: 1em;
         }`);
         styles.insertRule(`.content {
             margin: 1em;
@@ -45,7 +48,10 @@ export class DtzCard extends HTMLElement {
         }`);
         styles.insertRule(`:host(.compact) .actions {
             display: flex;
-            margin: 0.5em;
+            margin-top: 0.5em;
+            margin-bottom: 0.5em;
+            margin-left: 1em;
+            margin-right: 1em;
         }`);
         styles.insertRule(`:host(.compact.actions-end) .actions {
             justify-content: flex-end;
