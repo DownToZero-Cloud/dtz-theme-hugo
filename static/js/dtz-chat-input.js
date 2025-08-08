@@ -172,13 +172,13 @@ export class DtzChatInput extends HTMLElement {
         e.preventDefault();
         this.shadow.querySelector("#btnSubmit").innerText = "...";
         this.shadow.querySelector("#btnSubmit").disabled = true;
+        this.shadow.querySelector("#submit").value = "";
         this.dispatchEvent(new CustomEvent('submit', { detail: e.target.search.value }));
         this.dispatchEvent(new CustomEvent('search', { detail: e.target.search.value }));
     }
     processingDone() {
         this.shadow.querySelector("#btnSubmit").innerText = "Go!";
         this.shadow.querySelector("#btnSubmit").disabled = false;
-        this.shadow.querySelector("#submit").value = "";
     }
     connectedCallback() {
         let shadow = this.shadow;
