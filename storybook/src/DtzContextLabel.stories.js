@@ -12,3 +12,10 @@ export const Default = {
         contextId: 'context-1234567890',
     },
 };
+
+export const Shortened = {
+    args: {
+        alias: 'test2 context',
+        contextId: 'context-6a488287-2e0d-43a1-a92c-54546ad5b1fb',
+    },
+};
