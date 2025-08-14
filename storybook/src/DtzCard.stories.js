@@ -87,3 +87,11 @@ export const Warning = {
         class: 'warning',
     },
 };
+
+export const Disabled = {
+    args: {
+        title: 'Disabled Card',
+        content: '<div>This card has action buttons.</div>',
+        class: 'disabled',
+    },
+};

@@ -46,6 +46,10 @@ export class DtzCard extends HTMLElement {
             --dtz-light: hsl(45 100% 85% / 1);
             --dtz-normal: hsl(45 100% 55% / 1);
         }`);
+        styles.insertRule(`:host(.disabled) {
+            --dtz-light: hsl(210deg 13% 88%);
+            --dtz-normal: hsl(210deg 13% 65%);
+        }`);
         styles.insertRule(`:host(.compact) .actions {
             display: flex;
             margin-top: 0.5em;
