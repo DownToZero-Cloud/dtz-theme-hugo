@@ -5,6 +5,9 @@ export class DtzContextLabel extends HTMLElement {
     }
     styles() {
         const styles = new CSSStyleSheet();
+        styles.insertRule(`:host {
+            display: inline-block;
+        }`);
         styles.insertRule(`label {
             border: 1px solid var(--dtz-normal);
             border-radius: 1rem;
@@ -12,6 +15,9 @@ export class DtzContextLabel extends HTMLElement {
             padding-right: 1rem;
             padding-top: 0.5rem;
             padding-bottom: 0.5rem;
+            display: grid;
+            grid-template-columns: 3rem 1fr 3rem;
+            align-items: center;
         }`);
         styles.insertRule(`dtz-clipboard {
             margin-left: 0.25rem;
@@ -20,9 +26,6 @@ export class DtzContextLabel extends HTMLElement {
             margin-bottom: -0.125rem;
             margin-left: 0.5rem;
             margin-right: 0.5rem;
-        }`);
-        styles.insertRule(`dtz-clipboard {
-            margin-bottom: -0.5rem;
         }`);
         return styles;
     }
@@ -38,7 +41,7 @@ export class DtzContextLabel extends HTMLElement {
             contextIdShort = contextId.substring(0, 16) + '...';
         }
         let alias = this.getAttribute("alias");
-        shadow.innerHTML = `<label class="boxed"> ${icon} ${alias} - ${contextIdShort} <dtz-clipboard class="minimal">${contextId}</dtz-clipboard></label>`;
+        shadow.innerHTML = `<label class="boxed">${icon}<span>${alias} - ${contextIdShort}</span><dtz-clipboard class="minimal">${contextId}</dtz-clipboard></label>`;
     }
 }
 window.customElements.define('dtz-context-label', DtzContextLabel);
