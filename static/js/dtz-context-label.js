@@ -18,6 +18,7 @@ export class DtzContextLabel extends HTMLElement {
             display: grid;
             grid-template-columns: 3rem 1fr 3rem;
             align-items: center;
+            word-break: break-all;
         }`);
         styles.insertRule(`dtz-clipboard {
             margin-left: 0.25rem;
