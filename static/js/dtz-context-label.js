@@ -16,17 +16,38 @@ export class DtzContextLabel extends HTMLElement {
             padding-top: 0.5rem;
             padding-bottom: 0.5rem;
             display: grid;
-            grid-template-columns: 3rem 1fr 3rem;
+            grid-template-columns: 3rem 1fr;
             align-items: center;
             word-break: break-all;
+        }`);
+        styles.insertRule(`:host(.compact) label {
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+            padding-top: 0.25rem;
+            padding-bottom: 0.25rem;
+            grid-template-columns: 1.5rem 1fr;
+        }`);
+        styles.insertRule(`:host(.compact) label:has(dtz-clipboard) {
+            grid-template-columns: 1.5rem 1fr 3rem;
+        }`);
+        styles.insertRule(`label:has(dtz-clipboard) {
+            grid-template-columns: 3rem 1fr 3rem;
         }`);
         styles.insertRule(`dtz-clipboard {
             margin-left: 0.25rem;
         }`);
-        styles.insertRule(`label svg {
+        styles.insertRule(`label:has(dtz-clipboard) svg {
             margin-bottom: -0.125rem;
             margin-left: 0.5rem;
             margin-right: 0.5rem;
+        }`);
+        styles.insertRule(`:host(.compact) label:has(dtz-clipboard) svg {
+            margin-bottom: -0.125rem;
+            margin-left: 0.25rem;
+            margin-right: 0.25rem;
+        }`);
+        styles.insertRule(`label svg {
+            margin-bottom: -0.125rem;
         }`);
         return styles;
     }
@@ -37,12 +58,16 @@ export class DtzContextLabel extends HTMLElement {
             </svg>`;
         shadow.adoptedStyleSheets = [this.styles()];
         let contextId = this.getAttribute("contextId");
-        let contextIdShort = contextId;
-        if(contextId.length > 16){
-            contextIdShort = contextId.substring(0, 16) + '...';
+        let ctx_str='</span>';
+        if(contextId && contextId.length > 0){
+            let contextIdShort = contextId;
+            if(contextId.length > 16){
+                contextIdShort = contextId.substring(0, 16) + '...';
+            }
+            ctx_str=` - ${contextIdShort}</span><dtz-clipboard class="minimal">${contextId}</dtz-clipboard>`;
         }
         let alias = this.getAttribute("alias");
-        shadow.innerHTML = `<label class="boxed">${icon}<span>${alias} - ${contextIdShort}</span><dtz-clipboard class="minimal">${contextId}</dtz-clipboard></label>`;
+        shadow.innerHTML = `<label class="boxed">${icon}<span>${alias}${ctx_str}</label>`;
     }
 }
 window.customElements.define('dtz-context-label', DtzContextLabel);
