@@ -122,10 +122,6 @@
                 expires: exp_date,
                 domain: 'dtz.rocks', secure: true, sameSite: 'Lax'
             });
-            // set UI
-            document.querySelector("#currentIdentity span").textContent = sub;
-            document.querySelector("#currentIdentity dtz-clipboard").textContent = sub;
-            document.querySelector("#alternativeIdentity").style.display = 'none';
             // set context dropdown
             let alias = getAliasForContext(new_context_id);
             if (alias && alias.length > 0) {
@@ -171,6 +167,11 @@
             let x = parseJwt(token);
             user = x;
             knownContexts = {};
+            // set identity UI
+            document.querySelector("#currentIdentity span").textContent = sub;
+            document.querySelector("#currentIdentity dtz-clipboard").textContent = sub;
+            document.querySelector("#alternativeIdentity").style.display = 'none';
+
             //look for cache context info
             let str = localStorage.contexts;
             if (str && str.length > 0) {
