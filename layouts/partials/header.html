@@ -96,6 +96,7 @@
     function signOut(evt) {
         if (evt) evt.preventDefault();
         Cookies.remove('dtz-auth', { domain: 'dtz.rocks' });
+        Cookies.remove('dtz-auth-org', { domain: 'dtz.rocks' });
         window.location.reload();
     }
     function changeToContextId(new_context_id, new_target_url) {
@@ -113,10 +114,6 @@
         }).then(x => {
             let token = x.access_token;
             let expires = x.expires_in;
-            let sub = x.sub;
-            if(sub.length > 17){
-                sub = sub.substring(0, 17) + '...';
-            }
             let exp_date = new Date(new Date().getTime() + expires * 1000);
             Cookies.set("dtz-auth", token, {
                 expires: exp_date,
@@ -168,6 +165,10 @@
             user = x;
             knownContexts = {};
             // set identity UI
+            let sub = x.sub;
+            if(sub.length > 17){
+                sub = sub.substring(0, 17) + '...';
+            }
             document.querySelector("#currentIdentity span").textContent = sub;
             document.querySelector("#currentIdentity dtz-clipboard").textContent = sub;
             document.querySelector("#alternativeIdentity").style.display = 'none';
