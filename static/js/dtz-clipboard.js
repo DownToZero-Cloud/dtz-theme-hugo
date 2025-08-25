@@ -87,6 +87,13 @@ export class DtzClipboard extends HTMLElement {
         styles.insertRule(`:host(.minimal) span {
             display: none;
         }`);
+        styles.insertRule(`:host(.compact) {
+            --bs-btn-border-width: 0;
+        }`);
+        styles.insertRule(`:host(.compact) span {
+            display: none;
+        }`);
+
         return styles;
     }
     click(event) {

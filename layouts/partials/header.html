@@ -72,6 +72,8 @@
                             }
                         </style>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDarkDropdownMenuLink">
+                            <li id="currentIdentity"><span class="me-2"></span><dtz-clipboard  class="compact"></dtz-clipboard></li>
+                            <li id="alternativeIdentity" style="display:none;">jump back to<br><span class="me-2"></span></li>
                             <li><a class="dropdown-item" href="https://identity.dtz.rocks/">manage</a></li>
                             <li><a class="dropdown-item" href="#" onclick="signOut(event)">logout</a></li>
                         </ul>
@@ -111,11 +113,20 @@
         }).then(x => {
             let token = x.access_token;
             let expires = x.expires_in;
+            let sub = x.sub;
+            if(sub.length > 17){
+                sub = sub.substring(0, 17) + '...';
+            }
             let exp_date = new Date(new Date().getTime() + expires * 1000);
             Cookies.set("dtz-auth", token, {
                 expires: exp_date,
                 domain: 'dtz.rocks', secure: true, sameSite: 'Lax'
             });
+            // set UI
+            document.querySelector("#currentIdentity span").textContent = sub;
+            document.querySelector("#currentIdentity dtz-clipboard").textContent = sub;
+            document.querySelector("#alternativeIdentity").style.display = 'none';
+            // set context dropdown
             let alias = getAliasForContext(new_context_id);
             if (alias && alias.length > 0) {
                 document.querySelector("#currentContext").textContent = alias;

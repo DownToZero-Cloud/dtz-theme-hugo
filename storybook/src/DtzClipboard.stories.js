@@ -12,7 +12,13 @@ export const Default = {
     },
 };
 
-export const Minimal = {
+export const Compact = {
+    args: {
+        class: 'compact',
+    },
+};
+
+export const MinimalDeprecated = {
     args: {
         class: 'minimal',
     },
