@@ -72,7 +72,7 @@
                             }
                         </style>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDarkDropdownMenuLink">
-                            <li id="currentIdentity"><dtz-clipboard  class="compact"></dtz-clipboard></li>
+                            <li id="currentIdentity"><span class="me-2"></span><dtz-clipboard  class="compact"></dtz-clipboard></li>
                             <li id="alternativeIdentity" style="display:none;">jump back to<br><span class="me-2"></span></li>
                             <li><a class="dropdown-item" href="https://identity.dtz.rocks/">manage</a></li>
                             <li><a class="dropdown-item" href="#" onclick="signOut(event)">logout</a></li>
@@ -169,6 +169,7 @@
             if(sub.length > 17){
                 sub = sub.substring(0, 17) + '...';
             }
+            document.querySelector("#currentIdentity span").textContent = sub;
             document.querySelector("#currentIdentity dtz-clipboard").textContent = sub;
             document.querySelector("#alternativeIdentity").style.display = 'none';
 
