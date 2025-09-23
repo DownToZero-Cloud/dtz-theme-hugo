@@ -20,8 +20,8 @@
                 </li>
                 {{ $page := .Page }}
                 {{ range .Site.Menus.main }}
-                <li class='nav-item {{ if eq (trim $page.RelPermalink "/") ( trim .URL "/" ) }}active{{ end }}'><a
-                        class="nav-link" href="{{ .URL }}">{{ .Name }}</a></li>
+                <li class='nav-item {{ if eq (trim $page.RelPermalink "/") ( trim .URL "/" ) }}active{{ end }}' title="{{ .Title }}"><a
+                        class="nav-link" href="{{ .URL }}">{{ .Pre }}{{ .Name }}</a></li>
                 {{ end }}
             </ul>
             <style>
