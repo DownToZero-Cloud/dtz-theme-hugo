@@ -38,6 +38,7 @@ export class DtzCard extends HTMLElement {
         }`);
         styles.insertRule(`.actions {
             margin: 1em;
+            display: flex;
         }`);
         styles.insertRule(`.actions.no-margin {
             margin: 0;
@@ -49,9 +50,6 @@ export class DtzCard extends HTMLElement {
         styles.insertRule(`:host(.disabled) {
             --dtz-light: hsl(210deg 13% 88%);
             --dtz-normal: hsl(210deg 13% 65%);
-        }`);
-        styles.insertRule(`.actions {
-            display: flex;
         }`);
         styles.insertRule(`:host(.compact) .actions {
             margin-top: 0.5em;
