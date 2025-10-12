@@ -1,4 +1,5 @@
 import { DtzCard } from '../../static/js/dtz-card.js';
+import { DtzButton } from '../../static/js/dtz-button.js';
 
 export default {
     component: 'dtz-card',
@@ -76,9 +77,19 @@ export const WithActionsFullLine = {
     args: {
         title: 'Card with Actions',
         content: '<div>This card has action buttons.</div>',
-        actions: '<dtz-button slot="actions" style="display: block;">Action 1</dtz-button>',
+        actions: '<dtz-button slot="actions" style="flex-grow: 1;">Action 1</dtz-button>',
     },
 };
+
+export const ActionsSpaceBetween = {
+    args: {
+        title: 'Card with Actions ',
+        content: '<div>This card has action buttons.</div>',
+        class: 'actions-space-between',
+        actions: '<dtz-button slot="actions">Action 1</dtz-button> <dtz-button slot="actions" class="secondary">Action 2</dtz-button>',
+    },
+};
+
 
 export const Warning = {
     args: {

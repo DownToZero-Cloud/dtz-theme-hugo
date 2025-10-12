@@ -50,8 +50,10 @@ export class DtzCard extends HTMLElement {
             --dtz-light: hsl(210deg 13% 88%);
             --dtz-normal: hsl(210deg 13% 65%);
         }`);
-        styles.insertRule(`:host(.compact) .actions {
+        styles.insertRule(`.actions {
             display: flex;
+        }`);
+        styles.insertRule(`:host(.compact) .actions {
             margin-top: 0.5em;
             margin-bottom: 0.5em;
             margin-left: 1em;
