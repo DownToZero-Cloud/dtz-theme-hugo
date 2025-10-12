@@ -57,10 +57,10 @@ export class DtzCard extends HTMLElement {
             margin-left: 1em;
             margin-right: 1em;
         }`);
-        styles.insertRule(`:host(.compact.actions-end) .actions {
+        styles.insertRule(`:host(.actions-end) .actions {
             justify-content: flex-end;
         }`);
-        styles.insertRule(`:host(.compact.actions-space-between) .actions {
+        styles.insertRule(`:host(.actions-space-between) .actions {
             justify-content: space-between;
         }`);
         styles.insertRule(`:host(.compact) .dtz-card {
