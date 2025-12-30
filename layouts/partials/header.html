@@ -107,7 +107,10 @@
             body: JSON.stringify({ contextId: new_context_id })
         }).then(r => {
             if(r.status == 401){
-                window.location="https://identity.dtz.rocks/login?rd="+encodeURI(window.location.href);
+                // only redirect if not already on login page
+                if (window.location.href.indexOf("https://identity.dtz.rocks/login") == -1) {
+                    window.location="https://identity.dtz.rocks/login?rd="+encodeURI(window.location.href);
+                }
             }else{
                 return r.json();
             }
@@ -153,7 +156,10 @@
                 }
                 if (url.indexOf("https://identity.dtz.rocks/login") == -1) {
                     if (window.location.hash != '#noredirect') {
-                        window.location = "https://identity.dtz.rocks/login?rd=" + encodeURI(url);
+                        // only redirect if not already on login page
+                        if (window.location.href.indexOf("https://identity.dtz.rocks/login") == -1) {
+                            window.location="https://identity.dtz.rocks/login?rd="+encodeURI(url);
+                        }
                     }
                 }
             } else {
@@ -200,7 +206,10 @@
                 })
                     .then(r => {
                         if(r.status == 401){
-                            window.location="https://identity.dtz.rocks/login/?rd="+encodeURI(window.location.href);
+                            // only redirect if not already on login page
+                            if (window.location.href.indexOf("https://identity.dtz.rocks/login") == -1) {
+                              window.location="https://identity.dtz.rocks/login/?rd="+encodeURI(window.location.href);
+                            }
                         }else{
                             return r.json();
                         }
@@ -225,7 +234,10 @@
                 credentials: 'include'
             }).then(r => {
                 if(r.status == 401){
-                    window.location="https://identity.dtz.rocks/login?rd="+encodeURI(window.location.href);
+                    // only redirect if not already on login page
+                    if (window.location.href.indexOf("https://identity.dtz.rocks/login") == -1) {
+                        window.location="https://identity.dtz.rocks/login?rd="+encodeURI(window.location.href);
+                    }
                 }else{
                     return r.json();
                 }
