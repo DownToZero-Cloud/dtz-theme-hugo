@@ -264,7 +264,10 @@
                         })
                             .then(r =>{
                                 if(r.status == 401){
-                                    window.location="https://identity.dtz.rocks/login?rd="+encodeURI(window.location.href);
+                                    // only redirect if not already on login page
+                                    if (window.location.href.indexOf("https://identity.dtz.rocks/login") == -1) {
+                                        window.location="https://identity.dtz.rocks/login?rd="+encodeURI(window.location.href);
+                                    }
                                 }else{
                                     return r.json();
                                 }
