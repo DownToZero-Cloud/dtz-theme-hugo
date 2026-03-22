@@ -41,7 +41,7 @@
                     font-weight: 600;
                 }
             </style>
-            <form class="d-flex">
+            <div class="d-flex">
                 <a id="btnSignout" class="btn btn-outline-primary ms-2 me-2" style="display:none;" href="#"
                     onclick="signOut(event)">logout</a>
                 <a id="btnSignin" class="btn btn-outline-success" style="display:none;"
@@ -79,7 +79,7 @@
                         </ul>
                     </li>
                 </ul>
-            </form>
+            </div>
         </div>
     </div>
 </nav>
@@ -115,6 +115,9 @@
                 return r.json();
             }
         }).then(x => {
+            if (!x) {
+                return;
+            }
             let token = x.access_token;
             let expires = x.expires_in;
             let exp_date = new Date(new Date().getTime() + expires * 1000);
@@ -168,6 +171,9 @@
         }
         if (token) {
             let x = parseJwt(token);
+            if (!x) {
+                return;
+            }
             user = x;
             knownContexts = {};
             // set identity UI
@@ -226,7 +232,8 @@
                             localStorage.contexts = JSON.stringify(x);
                             document.querySelector(`#currentContext`).textContent = data.alias;
                         }
-                    });
+                    })
+                    .catch(() => null);
             }
             let processed_contexts = [];
             // fetch list of available contexts
@@ -242,10 +249,13 @@
                     return r.json();
                 }
             }).then(data => {
+                if (!Array.isArray(data)) {
+                    return;
+                }
                 /*data=[{
                     "context_id": "context-uaq7weuv"
                 }]*/
-                for (entry of data) {
+                for (const entry of data) {
                     let context_id = entry.contextId;
                     let li = document.createElement("li");
                     let link = document.createElement("a");
@@ -276,28 +286,31 @@
                                 if (data) {
                                     let id = `#ctx${data.contextId.replaceAll('-', '')}`;
                                     let el = document.querySelector(id);
+                                    if (!el) {
+                                        return;
+                                    }
                                     el.textContent = `${data.alias} `;
-                                    document.querySelector(`#ctx${data.contextId.replaceAll('-', '')}`);
                                     knownContexts[data.contextId] = { alias: data.alias };
                                     // wrap around storage headers
-                                    let x = {
+                                    let cacheEntry = {
                                         ts: new Date().getTime(),
                                         version: "1",
                                         data: knownContexts
                                     };
-                                    localStorage.contexts = JSON.stringify(x);
+                                    localStorage.contexts = JSON.stringify(cacheEntry);
                                     // check for current context
-                                    if (data.contextId == x.scope) {
+                                    if (data.contextId == user.scope) {
                                         document.querySelector(`#currentContext`).textContent = data.alias;
                                     }
                                 }
-                            });
+                            })
+                            .catch(() => null);
                     }
                     li.appendChild(link);
                     processed_contexts.push(context_id);
                     document.getElementById("contextList").appendChild(li);
                 }
-            });
+            }).catch(() => null);
 
             document.querySelector("#userControl").style.display = "flex";
             // async fire - send event for user is logged in
